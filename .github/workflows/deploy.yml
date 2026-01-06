@@ -1,4 +1,4 @@
-name: Vite Build and Deploy
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -12,20 +12,21 @@ jobs:
       contents: write
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
     
     - name: Setup Node
       uses: actions/setup-node@v4
       with:
         node-version: '18'
     
-    - name: Install
-      run: npm ci
+    - name: Install dependencies
+      run: npm install
     
     - name: Build
       run: npm run build
     
-    - name: Deploy
+    - name: Deploy to gh-pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
