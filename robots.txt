@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://stringmanolo.qzz.io/sitemap.xml
