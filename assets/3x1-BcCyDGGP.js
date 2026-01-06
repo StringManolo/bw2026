@@ -1,0 +1,92 @@
+const e=`## 3 X 1
+
+Report I made a year ago to a website where I found 3 bugs: CSRF, Predictable Password, and Reflected XSS.
+
+I love these chainable bugs, where you're unable to do much with one of them, but you become a serial killer with 2 or more together. Here is half of the original report, slightly edited (original was written in Spanish), in case you want to take a look.
+
+## Original Security Report
+
+---
+
+**Security report for https://example.com at 27 November, 04:32 (Spain)**
+
+- Reflected XSS at \`//www.example.com/register.php\` HTTP POST method at \`date1\` & \`date2\` parameters.
+- Predictable user and password at \`//www.example.com/login.php\`
+- CSRF logout/login at \`//www.example.com/home.php\` and \`//www.example.com/app.php\` HTTP GET method at url.
+
+Three notable security flaws were found in the non-requested manual penetration test carried out between the afternoon of November 27 and the morning of November 28. User-Agent: SM and IP 183.71.717
+
+### Reflected XSS
+
+This security failure is caused by not performing the correct validation of the data entered in the application. Its exploitation consists of modifying the form with name \`saveD\` in order to be able to enter text, and therefore malicious JavaScript code, in fields destined for numeric values. It is not verified in the PHP code that the user sends dates and not malicious code that can be interpreted by the browser.
+
+**Step Replication:**
+
+1. Log in to the page.
+
+2. Go to https://www.example.com
+
+3. Enter the following JavaScript code in the browser's address bar to create a form that allows you to send text in fields that were intended to send only dates, and press enter:
+
+\`\`\`javascript
+javascript:document.write("<div class=\\"container\\"> <div class=\\"formT\\"> <h2>Select <span>Dates(second shift)</span></h2> </div> <form class=\\"formR\\" name=\\"saveD\\" id=\\"register\\" method=\\"POST\\" action=\\"register.php\\"> <input class=\\"input\\" type=\\"text\\" name=\\"date2\\"> <div> <input class=\\"btnS\\" type=\\"submit\\" value=\\"Store\\"> <input class=\\"btnR\\" type=\\"reset\\" value=\\"Delete\\"> </div></div></form></div>");
+\`\`\`
+
+4. Enter the \`<\` symbol in the first generated field. Enter \`script>alert("Arbitrary javascript execution");<\/script>\` in the second generated field.
+
+5. Hit the "Store" button.
+
+6. The script is executed in the browser.
+
+This security flaw allows a malicious user to mirror JavaScript code in the browser of a legitimate user of the application.
+
+The attacker can perform potentially dangerous actions such as stealing the session of a legitimate user who is logged into the application/web when the user visits a web page with malicious code prepared to exploit this security flaw. The user only has to visit a malicious/infected page for the session to be stolen.
+
+**Safety Recommendation:**
+
+It is necessary to validate from the server all the fields and other mechanisms that allow a user to send any type of data to the server.
+
+Use the \`htmlentities()\` function to prevent the user's browser from interpreting malicious code. https://www.w3schools.com/php/func_string_htmlentities.asp
+
+**More detailed information about the security breach:**
+
+- General explanation of XSS security flaws: https://diego.com.es/ataques-xss-cross-site-scripting-en-php
+- Detailed explanation of the security flaw found: http://itfreekzone.blogspot.com/2009/12/rompiendo-lo-grande-xss-avanzado.html
+
+This penetration test was carried out randomly with the sole objective of improving your security. AT NO TIME was sensitive information accessed. Security flaws have NOT been used or distributed.
+
+Contact Email: example@gmail.com
+
+---
+
+## Technical Analysis
+
+I remember this XSS as if it were yesterday. The main problem is that the value of both fields was reflected together. The filter was good, because I wasn't able to inject anything into a single field. Many filters are based on blocking the \`<\` character if it accompanies a character other than a space. That is, following this rule, inserting the \`<\` by itself is a totally valid approach. But because both fields were reflected together:
+
+\`\`\`
+field1 = "<"
+field2 = "script>alert()<\/script>"
+\`\`\`
+
+The XSS was successful.
+
+### Predictable Credentials
+
+The first bug I found was the predictable username and password.
+
+I don't usually test this bug, but the registry told me that "admin" was already registered.
+
+So I tried about 12 passwords in total. The password was \`\${domainName}administrator123\`.
+
+### CSRF Logout
+
+I found the CSRF logout by looking at the source code of a redirection with \`view-source:domain\`. The site used a URL to logout that anyone could request without any token.
+
+### CSRF Login
+
+CSRF login was pretty much the same. After successful login and a couple of clicks you were redirected to the internal app. You were able to be a registered user just by typing the URL of the hidden main application where I found the XSS.
+
+## Conclusion
+
+These are low hanging fruit bugs, but the web was big enough to hide them well.
+`;export{e as default};
