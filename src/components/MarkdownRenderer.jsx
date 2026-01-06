@@ -1,20 +1,61 @@
 import { useEffect, useRef } from 'react';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
+import hljs from 'highlight.js';
+
+// NO importamos los CSS aquí, los cargaremos dinámicamente
 
 export const MarkdownRenderer = ({ content, theme }) => {
   const containerRef = useRef(null);
 
+  // Cargar el tema de highlight.js según el tema actual
+  useEffect(() => {
+    // Remover hojas de estilo anteriores de highlight.js
+    const existingStylesheets = document.querySelectorAll('link[data-hljs-theme]');
+    existingStylesheets.forEach(sheet => sheet.remove());
+
+    // Crear y añadir la hoja de estilo correcta
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.setAttribute('data-hljs-theme', 'true');
+    
+    // Elegir tema según el modo
+    if (theme.isDark) {
+      link.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css';
+    } else {
+      link.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
+    }
+    
+    document.head.appendChild(link);
+
+    return () => {
+      // Limpiar al desmontar
+      link.remove();
+    };
+  }, [theme.isDark]);
+
   useEffect(() => {
     if (!content || !containerRef.current) return;
 
-    // Configurar marked para permitir HTML
+    // Configurar marked con syntax highlighting
     marked.setOptions({
       breaks: true,
-      gfm: true, // GitHub Flavored Markdown
+      gfm: true,
       headerIds: true,
       mangle: false,
-      sanitize: false // No sanitizar aquí, lo haremos con DOMPurify
+      sanitize: false,
+      highlight: function(code, lang) {
+        // Si el lenguaje es válido, aplica highlight
+        if (lang && hljs.getLanguage(lang)) {
+          try {
+            return hljs.highlight(code, { language: lang }).value;
+          } catch (err) {
+            console.error('Highlight error:', err);
+          }
+        }
+        // Si no, devuelve el código sin highlight
+        return code;
+      }
     });
 
     // Configurar DOMPurify para permitir tags necesarios para payloads
@@ -50,6 +91,11 @@ export const MarkdownRenderer = ({ content, theme }) => {
     });
 
     containerRef.current.innerHTML = cleanHTML;
+
+    // Aplicar highlight a los bloques que no fueron procesados por marked
+    containerRef.current.querySelectorAll('pre code:not(.hljs)').forEach((block) => {
+      hljs.highlightElement(block);
+    });
   }, [content]);
 
   return (
@@ -116,9 +162,9 @@ export const markdownStyles = (theme) => `
   }
 
   .markdown-content pre {
-    background-color: ${theme.codeBg || (theme.isDark ? '#1e1e1e' : '#f5f5f5')};
+    background-color: ${theme.isDark ? '#0d1117' : '#f6f8fa'};
     border: 1px solid ${theme.border};
-    border-radius: 4px;
+    border-radius: 6px;
     padding: 1em;
     overflow-x: auto;
     margin: 1.5em 0;
@@ -127,7 +173,15 @@ export const markdownStyles = (theme) => `
   .markdown-content pre code {
     background: none;
     padding: 0;
-    color: ${theme.text};
+    color: inherit;
+    font-size: 0.9em;
+    line-height: 1.5;
+  }
+
+  /* Syntax highlighting ajustes */
+  .markdown-content .hljs {
+    background: transparent !important;
+    padding: 0 !important;
   }
 
   .markdown-content blockquote {
