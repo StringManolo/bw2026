@@ -18,16 +18,40 @@ export const SecurityBugsPage = ({ updateRoute, theme }) => (
       <h2 style={{ fontSize: '1.3em', marginBottom: '1.5em', fontWeight: 700 }}>Latest Reports</h2>
       <div style={{ display: 'grid', gap: '2em' }}>
         {securityBugsIndex.map((bug) => (
-          <BugReportCard
-            key={bug.id}
-            bug={bug}
-            updateRoute={updateRoute}
-            theme={theme}
-          />
-        ))}
+  bug.isPrivateResearch ? (
+    <PrivateResearchCard key={bug.id} bug={bug} updateRoute={updateRoute} theme={theme} />
+  ) : (
+    <BugReportCard key={bug.id} bug={bug} updateRoute={updateRoute} theme={theme} />
+  )
+))}
       </div>
     </section>
   </article>
+);
+
+// Componente especial para investigación privada
+const PrivateResearchCard = ({ bug, updateRoute, theme }) => (
+  <div
+    onClick={() => updateRoute(`security-bugs/${bug.id}`)}
+    style={{
+      padding: '1.5em',
+      border: `2px dashed ${theme.border}`,
+      borderRadius: '4px',
+      cursor: 'pointer',
+      backgroundColor: theme.isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)',
+      transition: 'all 0.25s ease'
+    }}
+  >
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1em', marginBottom: '0.5em' }}>
+      <span style={{ fontSize: '1.5em' }}>🔒</span>
+      <h3 style={{ fontSize: '1.1em', fontWeight: 700 }}>{bug.title}</h3>
+    </div>
+    <p style={{ color: theme.textSecondary, marginBottom: '0.5em' }}>{bug.date}</p>
+    <p style={{ color: theme.textSecondary }}>{bug.description}</p>
+    <div style={{ marginTop: '1em', color: theme.link, fontSize: '0.9em', fontWeight: 600 }}>
+      Read more about private research →
+    </div>
+  </div>
 );
 
 const BugReportCard = ({ bug, updateRoute, theme }) => (

@@ -1,6 +1,23 @@
 // Solo metadata - el contenido está en archivos .md separados
 export const securityBugsIndex = [
   {
+  id: 'nginx-version-dos-exposure',
+  title: 'Nginx Version Exposure & HTTP/2 Rapid Reset DoS Vulnerability',
+  date: 'January 1, 2026',
+  severity: 'Medium',
+  vendor: '[Under Coordinated Disclosure]',
+  description: 'Outdated Nginx version exposes server information and is vulnerable to CVE-2023-44487 (HTTP/2 Rapid Reset DoS attack).',
+  file: 'nginx-version-dos-exposure.md',
+  disclosure: [
+    'January 1, 2026: Vulnerability discovered during API investigation',
+    'January 1, 2026: Reported via proper channels',
+    'January 1, 2026: Acknowledged by relevant CSIRT',
+    'Status: Coordinated disclosure - assessment in progress'
+  ]
+},
+
+
+  {
   id: 'legacy-sqli-integration',
   title: 'SQL Injection in Legacy Integration Module',
   date: 'December 6, 2025',
@@ -114,7 +131,19 @@ export const securityBugsIndex = [
     'November 27-28, 2019: Vulnerabilities discovered',
     'November 2019: Reported to website owner'
   ]
-}
+},  
+  {
+    id: 'private-research-2020-2025',
+    title: 'Private Security Research (2020-2025)',
+    date: '2020-2025',
+    severity: 'Info',
+    vendor: 'Various (Under NDA)',
+    description: 'Approximately 200 security vulnerabilities reported through private disclosure programs, bug bounty platforms, and responsible disclosure channels. Full details withheld per NDAs and vendor agreements.',
+    file: 'private-research-summary.md',
+    isPrivateResearch: true // Flag especial
+  }
+
+
 ];
 
 // Pre-cargar todos los archivos .md usando import.meta.glob (forma oficial de Vite)
