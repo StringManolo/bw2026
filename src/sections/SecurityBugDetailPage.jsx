@@ -1,13 +1,57 @@
+import { useState, useEffect } from 'react';
 import { MarkdownRenderer, markdownStyles } from '../components/MarkdownRenderer';
-import { securityBugs } from '../content/securityBugs';
+import { securityBugsIndex, loadBugContent } from '../content/securityBugs/index';
 
 export const SecurityBugDetailPage = ({ bugId, updateRoute, theme }) => {
-  const bug = securityBugs.find(b => b.id === bugId);
+  const [bug, setBug] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  if (!bug) {
+  useEffect(() => {
+    const loadBug = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const bugData = await loadBugContent(bugId);
+        if (!bugData) {
+          setError('Bug not found');
+        } else {
+          setBug(bugData);
+        }
+      } catch (err) {
+        console.error('Error loading bug:', err);
+        setError('Error loading bug content');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadBug();
+  }, [bugId]);
+
+  // Loading state
+  if (loading) {
     return (
       <article>
-        <h1 style={{ fontSize: '2.5em', marginBottom: '1em', fontWeight: 700 }}>Bug Not Found</h1>
+        <div style={{
+          padding: '3em',
+          textAlign: 'center',
+          color: theme.textSecondary
+        }}>
+          Loading writeup...
+        </div>
+      </article>
+    );
+  }
+
+  // Error state
+  if (error || !bug) {
+    return (
+      <article>
+        <h1 style={{ fontSize: '2.5em', marginBottom: '1em', fontWeight: 700 }}>
+          Bug Not Found
+        </h1>
         <p style={{ color: theme.textSecondary, marginBottom: '2em' }}>
           The security bug you're looking for doesn't exist.
         </p>
@@ -15,7 +59,7 @@ export const SecurityBugDetailPage = ({ bugId, updateRoute, theme }) => {
           onClick={() => updateRoute('security-bugs')}
           style={{
             padding: '0.75em 1.5em',
-            backgroundColor: theme.isDark ? '#333' : '#f5f5f5',
+            backgroundColor: theme.card,
             color: theme.text,
             border: `1px solid ${theme.border}`,
             borderRadius: '4px',
@@ -23,8 +67,8 @@ export const SecurityBugDetailPage = ({ bugId, updateRoute, theme }) => {
             fontSize: '1em',
             transition: 'all 0.25s'
           }}
-          onMouseOver={(e) => e.target.style.backgroundColor = theme.isDark ? '#444' : '#e5e5e5'}
-          onMouseOut={(e) => e.target.style.backgroundColor = theme.isDark ? '#333' : '#f5f5f5'}
+          onMouseOver={(e) => e.target.style.backgroundColor = theme.hover}
+          onMouseOut={(e) => e.target.style.backgroundColor = theme.card}
         >
           ← Back to Security Bugs
         </button>
@@ -88,7 +132,7 @@ export const SecurityBugDetailPage = ({ bugId, updateRoute, theme }) => {
             </span>
             {bug.cve && (
               <span style={{
-                backgroundColor: theme.isDark ? '#2d2d2d' : '#f5f5f5',
+                backgroundColor: theme.codeBg,
                 padding: '0.25em 0.75em',
                 borderRadius: '3px',
                 fontFamily: 'monospace'
@@ -114,7 +158,7 @@ export const SecurityBugDetailPage = ({ bugId, updateRoute, theme }) => {
           )}
         </div>
 
-        {/* Content */}
+        {/* Content from .md file */}
         <div style={{ marginBottom: '3em' }}>
           <MarkdownRenderer content={bug.content} theme={theme} />
         </div>

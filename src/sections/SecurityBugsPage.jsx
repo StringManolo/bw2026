@@ -1,4 +1,4 @@
-import { securityBugs } from '../content/securityBugs';
+import { securityBugsIndex } from '../content/securityBugs/index';
 
 export const SecurityBugsPage = ({ updateRoute, theme }) => (
   <article>
@@ -17,7 +17,7 @@ export const SecurityBugsPage = ({ updateRoute, theme }) => (
     <section style={{ marginBottom: '3em', paddingBottom: '2em', borderBottom: `1px solid ${theme.border}` }}>
       <h2 style={{ fontSize: '1.3em', marginBottom: '1.5em', fontWeight: 700 }}>Latest Reports</h2>
       <div style={{ display: 'grid', gap: '2em' }}>
-        {securityBugs.map((bug) => (
+        {securityBugsIndex.map((bug) => (
           <BugReportCard
             key={bug.id}
             bug={bug}
@@ -76,7 +76,7 @@ const BugReportCard = ({ bug, updateRoute, theme }) => (
           {bug.vendor && <span>• {bug.vendor}</span>}
           {bug.cve && (
             <span style={{
-              backgroundColor: theme.isDark ? '#2d2d2d' : '#f5f5f5',
+              backgroundColor: theme.codeBg,
               padding: '0.2em 0.6em',
               borderRadius: '3px',
               fontFamily: 'monospace',
