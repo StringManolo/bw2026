@@ -2,25 +2,49 @@ export const securityBugs = [
   {
     id: 'w3schools-xss-1',
     title: 'W3Schools Stored XSS Vulnerability',
-    date: 'October 2020',
+    date: 'October 1, 2020',
     severity: 'High',
-    description: 'Input validation flaw in profile editor allowing arbitrary JavaScript execution.',
-    content: 'Vulnerability Report: https://mypage.w3schools.com...'
-  },
-  {
-    id: 'w3schools-csrf-1',
-    title: 'W3Schools Logout CSRF',
-    date: 'October 2020',
-    severity: 'High',
-    description: 'Logout endpoint vulnerable to CSRF attacks, allowing account takeover.',
-    content: 'Security report...'
-  },
-  {
-    id: 'multiple-vulns-1',
-    title: 'Multiple Vulnerabilities Chain',
-    date: 'November 2019',
-    severity: 'Critical',
-    description: 'Reflected XSS, predictable credentials, and CSRF vulnerabilities exploitable as a chain.',
-    content: 'Report...'
+    vendor: 'W3Schools',
+    description: 'Stored Cross-Site Scripting vulnerability in profile name field at mypage.w3schools.com.',
+    content: `## XSS - Stored
+
+Report made 1 oct, 2020 to mypage.w3schools.com where I found a Stored XSS bug.
+
+![Alert box prompted from w3schools.com](/resources/w3schoolsxss.png)
+
+I found this stored XSS bug testing w3schools security. Just made an account following the login link in the main domain. Here is the original report in case you want to take a look.
+
+## Original Security Report
+
+---
+
+**Security report for https://mypage.w3schools.com at 1 october, 01:20 (Spain).**
+
+The input "name" located at https://mypage.w3schools.com/mypage/editprofile.php is vulnerable to XSS.
+
+**Step replication.**
+
+1. Create new account and Log in.
+2. Click edit profile button or go to the vulnerable url.
+3. Introduce \`<svg/onload=alert()>\`
+4. Save changes.
+
+The javascript code get executed everytime i visit the webpage.
+
+**Safety recommendation:**
+
+In case it's a "feature", should be removed anyways. I'm sure there is a lot of ways to use this vulnerability to damage the website and the users.
+
+---
+
+## This is the payload:
+
+![inserted payload](/resources/w3schoolspayload.png)
+
+The bug was totally a low hanging fruit.`,
+    disclosure: [
+      'October 1, 2020 01:20 (Spain): Vulnerability discovered',
+      'October 1, 2020: Reported to W3Schools'
+    ]
   }
 ];

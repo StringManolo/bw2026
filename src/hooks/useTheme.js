@@ -5,7 +5,6 @@ export const useTheme = () => {
     // Verificar preferencia guardada
     const saved = localStorage.getItem('theme');
     if (saved) return saved === 'dark';
-    
     // Verificar preferencia del sistema
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
@@ -30,7 +29,12 @@ const lightTheme = {
   borderDark: '#000',
   accent: '#ff7f50',
   card: '#f9f9f9',
-  hover: 'rgba(0,0,0,0.05)'
+  hover: 'rgba(0,0,0,0.05)',
+  // Colores adicionales para markdown
+  link: '#0366d6',
+  codeBg: '#f5f5f5',
+  codeText: '#c7254e',
+  isDark: false
 };
 
 const darkTheme = {
@@ -42,5 +46,10 @@ const darkTheme = {
   borderDark: '#e5e5e5',
   accent: '#ff7f50',
   card: '#1a1a1a',
-  hover: 'rgba(255,255,255,0.05)'
+  hover: 'rgba(255,255,255,0.05)',
+  // Colores adicionales para markdown
+  link: '#58a6ff',
+  codeBg: '#1e1e1e',
+  codeText: '#e06c75',
+  isDark: true
 };

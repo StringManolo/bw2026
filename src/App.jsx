@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { HomePage } from './sections/HomePage';
 import { SecurityBugsPage } from './sections/SecurityBugsPage';
+import { SecurityBugDetailPage } from './sections/SecurityBugDetailPage';
 import { ArticlesPage } from './sections/ArticlesPage';
 import { ResearchPage } from './sections/ResearchPage';
 import { PapersPage } from './sections/PapersPage';
@@ -65,7 +66,14 @@ const StringManoloWeb = () => {
   };
 
   const renderContent = () => {
-    if (currentRoute.startsWith('security-bugs')) return <SecurityBugsPage updateRoute={updateRoute} theme={theme} />;
+    // Handle security bug detail pages
+    if (currentRoute.startsWith('security-bugs/')) {
+      const bugId = currentRoute.replace('security-bugs/', '');
+      return <SecurityBugDetailPage bugId={bugId} updateRoute={updateRoute} theme={theme} />;
+    }
+    
+    // Handle other routes
+    if (currentRoute === 'security-bugs') return <SecurityBugsPage updateRoute={updateRoute} theme={theme} />;
     if (currentRoute.startsWith('research')) return <ResearchPage updateRoute={updateRoute} theme={theme} />;
     if (currentRoute.startsWith('articles')) return <ArticlesPage updateRoute={updateRoute} theme={theme} />;
     if (currentRoute.startsWith('papers')) return <PapersPage updateRoute={updateRoute} theme={theme} />;
@@ -147,8 +155,8 @@ const StringManoloWeb = () => {
         zIndex: 100,
         transition: 'background-color 0.25s, border-color 0.25s'
       }}>
-        <nav style={{ 
-          maxWidth: '1200px', 
+        <nav style={{
+          maxWidth: '1200px',
           margin: '0 auto',
           display: 'flex',
           alignItems: 'center'
@@ -174,7 +182,7 @@ const StringManoloWeb = () => {
       </main>
 
       <CookieConsent theme={theme} />
-      
+
       <footer style={{
         borderTop: `1px solid ${theme.border}`,
         padding: '3em 5vw',
@@ -251,6 +259,15 @@ const getPageSEO = (route) => {
       keywords: 'about, cybersecurity researcher, developer'
     }
   };
+
+  // Handle detail pages
+  if (route.startsWith('security-bugs/')) {
+    return {
+      title: 'Security Bug Report - StringManolo',
+      description: 'Detailed security vulnerability writeup and analysis.',
+      keywords: 'security bug, vulnerability report, writeup, CVE'
+    };
+  }
 
   return pages[route] || pages['home'];
 };
