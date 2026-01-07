@@ -1,6 +1,22 @@
 // Solo metadata - el contenido está en archivos .md separados
 export const securityBugsIndex = [
   {
+  id: 'intranet-admin-sqli-compromise',
+  title: 'Unauthorized Compromise of Government Intranet via SQL Injection (Circa 2008)',
+  date: 'Circa 2008',
+  severity: 'Critical',
+  vendor: '[Undisclosed - Historical Incident]',
+  description: 'Full compromise of a shared government intranet server via SQL injection auth bypass and web shell upload, exposing 30+ websites. Documented as a historical case study on low-barrier-to-entry attacks.',
+  file: 'intranet-admin-sqli-compromise.md',
+  disclosure: [
+    'Circa 2008: Vulnerability discovered via Google dorks and exploited using public SQLi techniques',
+    'Circa 2008: Full server control achieved via web shell upload',
+    'Date Unknown: Incident not reported at the time',
+    'January 7, 2026: Documented retrospectively as an educational case study'
+  ]
+},
+
+  {
   id: 'nginx-version-dos-exposure',
   title: 'Nginx Version Exposure & HTTP/2 Rapid Reset DoS Vulnerability',
   date: 'January 1, 2026',
