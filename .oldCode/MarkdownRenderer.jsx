@@ -18,14 +18,14 @@ export const MarkdownRenderer = ({ content, theme }) => {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.setAttribute('data-hljs-theme', 'true');
-
+    
     // Elegir tema según el modo
     if (theme.isDark) {
       link.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css';
     } else {
       link.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
     }
-
+    
     document.head.appendChild(link);
 
     return () => {
@@ -37,34 +37,13 @@ export const MarkdownRenderer = ({ content, theme }) => {
   useEffect(() => {
     if (!content || !containerRef.current) return;
 
-    // Helper function to generate slug from text
-    const slugify = (text) => {
-      return text
-        .toLowerCase()
-        .trim()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/[\s_-]+/g, '-')
-        .replace(/^-+|-+$/g, '');
-    };
-
-    // Configure marked with custom renderer for headers with IDs
-    const renderer = new marked.Renderer();
-    
-    // Only override heading to add IDs, everything else uses default
-    renderer.heading = function({ text, depth, tokens }) {
-      const slug = slugify(text);
-      // Use this.parser to parse inline tokens correctly
-      const content = this.parser.parseInline(tokens);
-      return `<h${depth} id="${slug}">${content}</h${depth}>`;
-    };
-
+    // Configurar marked con syntax highlighting
     marked.setOptions({
       breaks: true,
       gfm: true,
-      headerIds: false, // Disable automatic IDs since we're doing it manually
+      headerIds: true,
       mangle: false,
       sanitize: false,
-      renderer: renderer,
       highlight: function(code, lang) {
         // Si el lenguaje es válido, aplica highlight
         if (lang && hljs.getLanguage(lang)) {

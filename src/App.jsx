@@ -11,6 +11,7 @@ import { ToolsPage } from './sections/ToolsPage';
 import { TutorialsPage } from './sections/TutorialsPage';
 import { TutorialDetailPage } from './sections/TutorialDetailPage';
 import { MiscPage } from './sections/MiscPage';
+import { MiscDetailPage } from './sections/MiscDetailPage';
 import { WriteupsPage } from './sections/WriteupsPage';
 import { ProjectsPage } from './sections/ProjectsPage';
 import { AboutPage } from './sections/AboutPage';
@@ -87,19 +88,26 @@ const StringManoloWeb = () => {
       return <SecurityBugDetailPage bugId={bugId} updateRoute={updateRoute} theme={theme} />;
     }
 
+    // Handle tutorial detail pages
     if (currentRoute.startsWith('tutorials/')) {
       const tutorialId = currentRoute.replace('tutorials/', '');
       return <TutorialDetailPage tutorialId={tutorialId} updateRoute={updateRoute} theme={theme} />;
     }
 
+    // Handle misc detail pages
+    if (currentRoute.startsWith('misc/')) {
+      const miscId = currentRoute.replace('misc/', '');
+      return <MiscDetailPage miscId={miscId} updateRoute={updateRoute} theme={theme} />;
+    }
+
     // Handle other routes
     if (currentRoute === 'security-bugs') return <SecurityBugsPage updateRoute={updateRoute} theme={theme} />;
     if (currentRoute === 'articles') return <ArticlesPage updateRoute={updateRoute} theme={theme} />;
-    if (currentRoute.startsWith('research')) return <ResearchPage updateRoute={updateRoute} theme={theme} />;
-    if (currentRoute.startsWith('papers')) return <PapersPage updateRoute={updateRoute} theme={theme} />;
-    if (currentRoute.startsWith('tutorials')) return <TutorialsPage updateRoute={updateRoute} theme={theme} />;
-    if (currentRoute.startsWith('tools')) return <ToolsPage updateRoute={updateRoute} theme={theme} />;
-    if (currentRoute.startsWith('misc')) return <MiscPage updateRoute={updateRoute} theme={theme} />;
+    if (currentRoute === 'research') return <ResearchPage updateRoute={updateRoute} theme={theme} />;
+    if (currentRoute === 'papers') return <PapersPage updateRoute={updateRoute} theme={theme} />;
+    if (currentRoute === 'tutorials') return <TutorialsPage updateRoute={updateRoute} theme={theme} />;
+    if (currentRoute === 'tools') return <ToolsPage updateRoute={updateRoute} theme={theme} />;
+    if (currentRoute === 'misc') return <MiscPage updateRoute={updateRoute} theme={theme} />;
     if (currentRoute === 'writeups' || currentRoute.startsWith('writeups')) return <WriteupsPage updateRoute={updateRoute} theme={theme} />;
     if (currentRoute === 'about') return <AboutPage theme={theme} />;
     if (currentRoute === 'projects') return <ProjectsPage updateRoute={updateRoute} theme={theme} />;
@@ -270,8 +278,8 @@ const getPageSEO = (route) => {
     },
     'misc': {
       title: 'Miscellaneous - StringManolo',
-      description: 'Miscellaneous content, resources, and notes on various cybersecurity topics.',
-      keywords: 'miscellaneous, resources, notes, cybersecurity'
+      description: 'Tools, utilities, configurations, and experiments that enhance development workflows.',
+      keywords: 'miscellaneous, tools, utilities, configurations, experiments'
     },
     'about': {
       title: 'About - StringManolo',
@@ -289,12 +297,39 @@ const getPageSEO = (route) => {
     };
   }
 
+  // Handle research detail pages
+  if (route.startsWith('research/')) {
+    return {
+      title: 'Research - StringManolo',
+      description: 'Security research and technical analysis.',
+      keywords: 'security research, vulnerability analysis, technical documentation'
+    };
+  }
+
   // Handle security bug detail pages
   if (route.startsWith('security-bugs/')) {
     return {
       title: 'Security Bug Report - StringManolo',
       description: 'Detailed security vulnerability writeup and analysis.',
       keywords: 'security bug, vulnerability report, writeup, CVE'
+    };
+  }
+
+  // Handle tutorial detail pages
+  if (route.startsWith('tutorials/')) {
+    return {
+      title: 'Tutorial - StringManolo',
+      description: 'Technical tutorial on security tools and techniques.',
+      keywords: 'security tutorial, technical guide, cybersecurity education'
+    };
+  }
+
+  // Handle misc detail pages
+  if (route.startsWith('misc/')) {
+    return {
+      title: 'Miscellaneous - StringManolo',
+      description: 'Tools, utilities, and configurations for development workflows.',
+      keywords: 'tools, utilities, configurations, development'
     };
   }
 
