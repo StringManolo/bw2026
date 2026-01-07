@@ -8,6 +8,7 @@ import { ResearchPage } from './sections/ResearchPage';
 import { PapersPage } from './sections/PapersPage';
 import { ToolsPage } from './sections/ToolsPage';
 import { TutorialsPage } from './sections/TutorialsPage';
+import { TutorialDetailPage } from './sections/TutorialDetailPage';
 import { MiscPage } from './sections/MiscPage';
 import { WriteupsPage } from './sections/WriteupsPage';
 import { ProjectsPage } from './sections/ProjectsPage';
@@ -77,6 +78,11 @@ const StringManoloWeb = () => {
     if (currentRoute.startsWith('security-bugs/')) {
       const bugId = currentRoute.replace('security-bugs/', '');
       return <SecurityBugDetailPage bugId={bugId} updateRoute={updateRoute} theme={theme} />;
+    }
+
+    if (currentRoute.startsWith('tutorials/')) {
+      const tutorialId = currentRoute.replace('tutorials/', '');
+      return <TutorialDetailPage tutorialId={tutorialId} updateRoute={updateRoute} theme={theme} />;
     }
 
     // Handle other routes
