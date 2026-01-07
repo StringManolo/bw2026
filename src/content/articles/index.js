@@ -1,5 +1,15 @@
 // Solo metadata - el contenido está en archivos .md separados
 export const articlesIndex = [
+{
+  id: 'des-algorithm-explained',
+  title: 'DES Algorithm Explained Step by Step',
+  date: 'February 6, 2022',
+  category: 'Cryptography',
+  language: 'English',
+  excerpt: 'Complete step-by-step explanation of the Data Encryption Standard (DES) algorithm: key generation, permutation tables, S-boxes, round functions, and encryption process with code examples.',
+  file: 'des-algorithm-explained.md',
+  tags: ['DES', 'Cryptography', 'Encryption', 'Block Cipher', 'Tutorial']
+},
   {
     id: 'xss-series-chapter-1',
     title: 'Security Series - Chapter 1: XSS',  // ← Cambiado
