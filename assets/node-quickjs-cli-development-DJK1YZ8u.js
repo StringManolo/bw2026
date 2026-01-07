@@ -50,13 +50,13 @@ In case you use a Unix system, you can also use the package manager of your dist
 
 #### Quickjs
 
-If you already have installed g++ and make or are used to compiling programs using source code, it is recommended to compile it. [Latest version of the code](https://bellard.org/quickjs/).
+If you already have installed g++ and make or are used to compiling programs using source code, it is recommended to compile it. [Latest version of the code](https://bellard.org/quickjs/quickjs-2025-09-13-2.tar.xz).
 
 Otherwise you can choose to download the binary already compiled.
 
 The downside is that it does not include qjsc (the JavaScript-to-binary compiler). Anyway you can run your JavaScript code with just the binary.
 
-[Here the list of available binaries](https://bellard.org/quickjs/). Make sure to download the latest version compatible with your system.
+[Here the list of available binaries](https://bellard.org/quickjs/binary_releases/). Make sure to download the latest version compatible with your system.
 
 Move the binary(s) extracted from the .tar.gz/.zip to one of the binary paths available on your system so that you can use qjs as a command.
 
