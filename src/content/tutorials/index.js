@@ -1,6 +1,28 @@
 // Solo metadata - el contenido está en archivos .md separados
 export const tutorialsIndex = [
   {
+    id: 'javascript-map-reduce-filter',
+    title: 'JavaScript Map, Reduce, Filter',
+    date: 'March 23, 2021',
+    updated: 'January 2026',
+    difficulty: 'Intermediate',
+    category: 'Development',
+    excerpt: 'Learn how map, reduce, and filter work by implementing them from scratch. Understand callbacks, array methods, and functional programming patterns in JavaScript.',
+    file: 'javascript-map-reduce-filter.md',
+    tags: ['JavaScript', 'Arrays', 'Functional Programming', 'Map', 'Reduce', 'Filter']
+  },
+  {
+    id: 'javascript-tutorial-basics',
+    title: 'JavaScript Tutorial - Basics',
+    date: 'March 23, 2021',
+    updated: 'January 2026',
+    difficulty: 'Beginner',
+    category: 'Development',
+    excerpt: 'Complete introduction to JavaScript programming covering variables, functions, loops, conditionals, arrays, objects, and DOM manipulation. Perfect for beginners.',
+    file: 'javascript-tutorial-basics.md',
+    tags: ['JavaScript', 'Programming', 'Web Development', 'DOM', 'Beginner']
+  },
+  {
     id: 'node-quickjs-cli-development',
     title: 'Node & Quickjs for CLI Development',
     date: 'March 22, 2021',
