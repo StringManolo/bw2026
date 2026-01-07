@@ -5,6 +5,7 @@ import { SecurityBugDetailPage } from './sections/SecurityBugDetailPage';
 import { ArticlesPage } from './sections/ArticlesPage';
 import { ArticleDetailPage } from './sections/ArticleDetailPage';
 import { ResearchPage } from './sections/ResearchPage';
+import { ResearchDetailPage } from './sections/ResearchDetailPage';
 import { PapersPage } from './sections/PapersPage';
 import { ToolsPage } from './sections/ToolsPage';
 import { TutorialsPage } from './sections/TutorialsPage';
@@ -72,6 +73,12 @@ const StringManoloWeb = () => {
     if (currentRoute.startsWith('articles/')) {
       const articleId = currentRoute.replace('articles/', '');
       return <ArticleDetailPage articleId={articleId} updateRoute={updateRoute} theme={theme} />;
+    }
+
+    // Handle research detail pages
+    if (currentRoute.startsWith('research/')) {
+      const researchId = currentRoute.replace('research/', '');
+      return <ResearchDetailPage researchId={researchId} updateRoute={updateRoute} theme={theme} />;
     }
 
     // Handle security bug detail pages
