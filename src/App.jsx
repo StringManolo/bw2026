@@ -3,6 +3,7 @@ import { HomePage } from './sections/HomePage';
 import { SecurityBugsPage } from './sections/SecurityBugsPage';
 import { SecurityBugDetailPage } from './sections/SecurityBugDetailPage';
 import { ArticlesPage } from './sections/ArticlesPage';
+import { ArticleDetailPage } from './sections/ArticleDetailPage';
 import { ResearchPage } from './sections/ResearchPage';
 import { PapersPage } from './sections/PapersPage';
 import { ToolsPage } from './sections/ToolsPage';
@@ -66,16 +67,22 @@ const StringManoloWeb = () => {
   };
 
   const renderContent = () => {
+    // Handle article detail pages
+    if (currentRoute.startsWith('articles/')) {
+      const articleId = currentRoute.replace('articles/', '');
+      return <ArticleDetailPage articleId={articleId} updateRoute={updateRoute} theme={theme} />;
+    }
+
     // Handle security bug detail pages
     if (currentRoute.startsWith('security-bugs/')) {
       const bugId = currentRoute.replace('security-bugs/', '');
       return <SecurityBugDetailPage bugId={bugId} updateRoute={updateRoute} theme={theme} />;
     }
-    
+
     // Handle other routes
     if (currentRoute === 'security-bugs') return <SecurityBugsPage updateRoute={updateRoute} theme={theme} />;
+    if (currentRoute === 'articles') return <ArticlesPage updateRoute={updateRoute} theme={theme} />;
     if (currentRoute.startsWith('research')) return <ResearchPage updateRoute={updateRoute} theme={theme} />;
-    if (currentRoute.startsWith('articles')) return <ArticlesPage updateRoute={updateRoute} theme={theme} />;
     if (currentRoute.startsWith('papers')) return <PapersPage updateRoute={updateRoute} theme={theme} />;
     if (currentRoute.startsWith('tutorials')) return <TutorialsPage updateRoute={updateRoute} theme={theme} />;
     if (currentRoute.startsWith('tools')) return <ToolsPage updateRoute={updateRoute} theme={theme} />;
@@ -260,7 +267,16 @@ const getPageSEO = (route) => {
     }
   };
 
-  // Handle detail pages
+  // Handle article detail pages
+  if (route.startsWith('articles/')) {
+    return {
+      title: 'Article - StringManolo',
+      description: 'Technical article on cybersecurity topics.',
+      keywords: 'security article, technical writing, cybersecurity'
+    };
+  }
+
+  // Handle security bug detail pages
   if (route.startsWith('security-bugs/')) {
     return {
       title: 'Security Bug Report - StringManolo',
