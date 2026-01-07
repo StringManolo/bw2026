@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js"></script>
+    <style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;display:flex;justify-content:center;align-items:center;}.container{background:white;padding:2rem;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,0.3);width:400px;max-width:90%;}.form-container{display:flex;flex-direction:column;gap:1rem;}h2{text-align:center;margin-bottom:1.5rem;color:#333;}.form-group{display:flex;flex-direction:column;gap:0.5rem;}label{font-weight:bold;color:#555;}input{padding:0.75rem;border:2px solid #ddd;border-radius:5px;font-size:1rem;transition:border-color 0.3s;}input:focus{outline:none;border-color:#667eea;}button{padding:0.75rem;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;border:none;border-radius:5px;font-size:1rem;cursor:pointer;transition:transform 0.2s;}button:hover{transform:translateY(-2px);}.toggle-form{text-align:center;margin-top:1rem;color:#666;}.toggle-form a{color:#667eea;text-decoration:none;cursor:pointer;font-weight:bold;}.toggle-form a:hover{text-decoration:underline;}.message{padding:0.75rem;border-radius:5px;margin-bottom:1rem;text-align:center;display:none;}.success{background:#d4edda;color:#155724;border:1px solid #c3e6cb;}.error{background:#f8d7da;color:#721c24;border:1px solid #f5c6cb;}.hidden{display:none;}</style>
+</head>
+<body>
+    <div class="container">
+        <div id="loginForm" class="form-container">
+            <h2>Login</h2>
+            <div id="loginMessage" class="message"></div>
+            <div class="form-group">
+                <label>Username:</label>
+                <input type="text" id="loginUsername" placeholder="Your username" required>
+            </div>
+            <div class="form-group">
+                <label>Password:</label>
+                <input type="password" id="loginPassword" placeholder="Your password" required>
+            </div>
+            <button onclick="login()">Login</button>
+            <div class="toggle-form">Don't have an account? <a onclick="showRegister()">Register here</a></div>
+        </div>
+
+        <div id="registerForm" class="form-container hidden">
+            <h2>Create Account</h2>
+            <div id="registerMessage" class="message"></div>
+            <div class="form-group">
+                <label>Username:</label>
+                <input type="text" id="registerUsername" placeholder="Choose a username" required>
+            </div>
+            <div class="form-group">
+                <label>Password:</label>
+                <input type="password" id="registerPassword" placeholder="Minimum 6 characters" required>
+            </div>
+            <button onclick="register()">Create Account</button>
+            <div class="toggle-form">Already have an account? <a onclick="showLogin()">Login here</a></div>
+        </div>
+
+        <div id="userPanel" class="form-container hidden">
+            <h2>Welcome</h2>
+            <div id="userInfo"></div>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <script>
+        const bcrypt = dcodeIO.bcrypt;
+
+        // Set Admin Account:
+        (() => {
+          const users = JSON.parse(localStorage.getItem('users') || '{}');
+          if (! users["admin"]) {
+            users["admin"] = {
+              password: "$2a$10$k8fMiPZYKtzA6ZAm2/qkGuSNUdb7hiXuL58RslWxiCGzD4U2p/aUK",
+              createdAt: new Date().toISOString()
+            };
+            localStorage.setItem('users', JSON.stringify(users));
+          }
+        })();
+
+        const xssFilter = userInput => {
+          const p = document.createElement('p');
+          p.innerText = userInput;
+          return p.innerHTML;
+        }
+
+        function showLogin() {
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('userPanel').classList.add('hidden');
+            clearMessages();
+        }
+
+        function showRegister() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+            document.getElementById('userPanel').classList.add('hidden');
+            clearMessages();
+        }
+
+        function showUserPanel() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('userPanel').classList.remove('hidden');
+        }
+
+        function clearMessages() {
+            document.getElementById('loginMessage').style.display = 'none';
+            document.getElementById('registerMessage').style.display = 'none';
+        }
+
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `message ${type}`;
+            element.style.display = 'block';
+        }
+
+        function register() {
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+
+            if (!username || !password) {
+                showMessage('registerMessage', 'Please complete all fields', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showMessage('registerMessage', 'Password must be at least 6 characters', 'error');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users') || '{}');
+            if (users[username]) {
+                showMessage('registerMessage', 'This username already exists', 'error');
+                return;
+            }
+
+            const salt = bcrypt.genSaltSync(10);
+            const hashedPassword = bcrypt.hashSync(password, salt);
+
+            users[username] = {
+                password: hashedPassword,
+                createdAt: new Date().toISOString()
+            };
+
+            localStorage.setItem('users', JSON.stringify(users));
+            showMessage('registerMessage', 'Account created successfully!', 'success');
+            document.getElementById('registerForm').reset();
+            setTimeout(showLogin, 2000);
+        }
+
+        function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!username || !password) {
+                showMessage('loginMessage', 'Please complete all fields', 'error');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users') || '{}');
+            const user = users[username];
+
+            if (!user) {
+                showMessage('loginMessage', 'User not found', 'error');
+                return;
+            }
+
+            if (bcrypt.compareSync(password, user.password)) {
+                localStorage.setItem('currentUser', JSON.stringify({
+                    username: username,
+                    loggedIn: true
+                }));
+
+                showUserPanel();
+                document.getElementById('userInfo').innerHTML = `
+                    <p><strong>User:</strong> ${xssFilter(username)}</p>
+                    <p><strong>Registered:</strong> ${new Date(user.createdAt).toLocaleDateString()}</p>
+                `;
+            } else {
+                showMessage('loginMessage', 'Incorrect password', 'error');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            showLogin();
+            document.getElementById('loginForm').reset();
+        }
+
+        function checkCurrentUser() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            if (currentUser && currentUser.loggedIn) {
+                showUserPanel();
+                const users = JSON.parse(localStorage.getItem('users') || '{}');
+                const user = users[currentUser.username];
+                document.getElementById('userInfo').innerHTML = `
+                    <p><strong>User:</strong> ${xssFilter(currentUser.username)}</p>
+                    <p><strong>Registered:</strong> ${new Date(user.createdAt).toLocaleDateString()}</p>
+                `;
+            } else {
+                showLogin();
+            }
+        }
+
+        window.testAdminPassword = password => {
+          const result = bcrypt.compareSync(password, '$2a$10$k8fMiPZYKtzA6ZAm2/qkGuSNUdb7hiXuL58RslWxiCGzD4U2p/aUK') ? 'Valid' : 'Invalid';
+          console.log(result);
+          return result;
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', checkCurrentUser);
+        } else {
+            checkCurrentUser();
+        }
+
+        setTimeout(() => {
+  alert(`Hello hacker:
+I managed to extract this internal login panel from a server.
+
+The application is in development, so bypassing the login to access the account is useless since the account has nothing.
+
+The admin might reuse their password in production applications.
+
+Your goal is to obtain a valid password.
+
+You can enter the password manually or use the testAdminPassword("myPassword123"); function from the console.
+
+* If you're on Android and your browser doesn't have a console and you want to use the function:
+- You can use the following browser that includes a console: https://github.com/StringManolo/Panther/releases/download/V1.0.10/Panther_stable_ver.1.0.10.apk
+
+- Open the console in Panther from Android by clicking on the icon to the left of the omnibox (URL bar) and click "console" to display it.
+`);
+
+  if (confirm("Want a hint?")) {
+    alert("Obviously the username is admin");
+    if (confirm("Want another hint?")) {
+      alert("The admin uses 6 unique characters for their password");
+      if (confirm("Want another hint?")) {
+        alert("The admin repeats one of the characters in their password");
+        if (confirm("Want another hint?")) {
+          alert("The password is long");
+          if (confirm("Want another hint?")) {
+            alert("The algorithm is bcrypt and has a known issue");
+            if (confirm("Want another hint?")) {
+              alert("The issue is related to size");
+              if (confirm("No more hints, want to see the solution?")) {
+                alert(`The password has 72 'a' characters + ADMIN
+
+If you enter any other password that starts with 72 'a' characters, it bypasses the hashing algorithm, since bcrypt silently truncates after 72 bytes.
+
+If you create a new user with another password that starts with 72 'a' letters, you can verify how the same password works to log in to both the admin account and the new account you created.
+
+You can test from the console with:
+testAdminPassword("a".repeat(71)); // invalid
+testAdminPassword("a".repeat(72)); // valid
+testAdminPassword("a".repeat(72) + "123456"); // valid
+testAdminPassword("123456" + "a".repeat(72)); // invalid
+
+For more information about this vulnerability and related vulnerabilities:
+https://www.cve.news/cve-2025-22228/
+
+https://tnsafety.com/okta-bcrypt-vulnerability-exposes-critical-api-design-flaws
+
+https://portswigger.net/daily-swig/bcrypt-hashing-library-bug-leaves-node-js-applications-open-to-brute-force-attacks
+
+https://www.drupal.org/project/drupal/issues/3536662
+
+IMPORTANT: Bcrypt uses 72 bytes internally (NOT 72 CHARACTERS), so if you use unicode characters that occupy more than one byte, you can have the same problem even if you limit the maximum size to 70 characters or less.
+
+Proposed fix:
+- Limit the maximum characters for passwords to 18. (The maximum a character can occupy is 4 bytes. 18 unicode characters can be a maximum of 72 bytes).
+- Use Argon2id instead of Bcrypt
+`);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}, 1200);
+    </script>
+</body>
+</html>
