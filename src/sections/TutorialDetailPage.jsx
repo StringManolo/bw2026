@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { loadTutorialContent } from '../content/tutorials';
-import { MarkdownRenderer } from '../components/MarkdownRenderer';
+import { MarkdownRenderer, markdownStyles } from '../components/MarkdownRenderer';
 
 export const TutorialDetailPage = ({ tutorialId, updateRoute, theme }) => {
   const [tutorial, setTutorial] = useState(null);
@@ -51,7 +51,9 @@ export const TutorialDetailPage = ({ tutorialId, updateRoute, theme }) => {
   }
 
   return (
-    <article>
+    <>
+      <style>{markdownStyles(theme)}</style>
+      <article>
       {/* Back Button */}
       <button
         onClick={() => updateRoute('tutorials')}
@@ -174,6 +176,7 @@ export const TutorialDetailPage = ({ tutorialId, updateRoute, theme }) => {
         </button>
       </footer>
     </article>
+    </>
   );
 };
 
