@@ -13,12 +13,24 @@
     <meta name="theme-color" content="#fffefe" />
     <title>StringManolo - Cybersecurity Research & Development</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-30E9FN6L5S"></script>
+    
+    <!-- Google Tag Manager - Delayed Load (non-blocking) -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-30E9FN6L5S');
+      // Load GTM after page is interactive
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-30E9FN6L5S';
+          document.head.appendChild(script);
+          
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          window.gtag = gtag;
+          gtag('js', new Date());
+          gtag('config', 'G-30E9FN6L5S');
+        }, 3000); // Load after 3 seconds
+      });
     </script>
   </head>
   <body>
