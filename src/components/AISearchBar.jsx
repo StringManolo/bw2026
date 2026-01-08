@@ -26,7 +26,7 @@ export const AISearchBar = ({ theme }) => {
           email: "manuelvarelacaldas@gmail.com"
         }
       },
-      
+
       securityBugs: securityBugsIndex.map(bug => ({
         title: bug.title,
         date: bug.date,
@@ -34,7 +34,7 @@ export const AISearchBar = ({ theme }) => {
         vendor: bug.vendor,
         description: bug.description
       })),
-      
+
       articles: articlesIndex.map(article => ({
         title: article.title,
         date: article.date,
@@ -42,14 +42,14 @@ export const AISearchBar = ({ theme }) => {
         excerpt: article.excerpt,
         tags: article.tags
       })),
-      
+
       tools: tools.map(tool => ({
         name: tool.name,
         description: tool.description,
         repo: tool.repo,
         language: tool.language
       })),
-      
+
       expertise: [
         "Vulnerability research and cryptography",
         "Full-stack web development (JavaScript, React, Node.js)",
@@ -58,7 +58,7 @@ export const AISearchBar = ({ theme }) => {
         "Open-source security projects"
       ]
     };
-    
+
     return JSON.stringify(context, null, 2);
   };
 
@@ -71,7 +71,7 @@ export const AISearchBar = ({ theme }) => {
     setReasoning(null);
 
     const context = prepareContext();
-    const systemPrompt = `You are an AI assistant helping users learn about StringManolo's work. 
+    const systemPrompt = `You are an AI assistant helping users learn about StringManolo's work.
 
 WEBSITE CONTEXT:
 ${context}
@@ -108,21 +108,21 @@ Answer questions based on this context. Be concise, helpful, and accurate. If as
 
         for (const line of lines) {
           if (line.trim() === "" || line.trim() === "data: [DONE]") continue;
-          
+
           try {
             const jsonLine = line.replace(/^data: /, '').trim();
             if (!jsonLine) continue;
-            
+
             const json = JSON.parse(jsonLine);
-            
+
             if (json.choices && json.choices[0] && json.choices[0].delta) {
               const delta = json.choices[0].delta;
-              
+
               if (delta.content) {
                 fullResponse += delta.content;
                 setResponse(fullResponse);
               }
-              
+
               if (delta.reasoning) {
                 fullReasoning += delta.reasoning;
                 setReasoning(fullReasoning);
@@ -155,7 +155,7 @@ Answer questions based on this context. Be concise, helpful, and accurate. If as
 
   return (
     <>
-      <style>{markdownStyles(theme)}</style>
+      <style key={theme.isDark ? 'dark' : 'light'}>{markdownStyles(theme)}</style>
       <div style={{
         marginBottom: '3em',
         padding: '2em',
@@ -163,14 +163,14 @@ Answer questions based on this context. Be concise, helpful, and accurate. If as
         borderRadius: '4px',
         background: theme.bg
       }}>
-        <h2 style={{ 
-          fontSize: '1.3em', 
-          marginBottom: '0.5em', 
-          fontWeight: 700 
+        <h2 style={{
+          fontSize: '1.3em',
+          marginBottom: '0.5em',
+          fontWeight: 700
         }}>
           AI Assistant
         </h2>
-        
+
         <p style={{
           fontSize: '0.95em',
           color: theme.textSecondary,
@@ -179,7 +179,7 @@ Answer questions based on this context. Be concise, helpful, and accurate. If as
         }}>
           Ask questions about my security research, vulnerabilities, tools, articles, or expertise. Powered by AI with knowledge of all content on this site.
         </p>
-        
+
         <div style={{
           display: 'flex',
           gap: '0.5em',
@@ -207,7 +207,7 @@ Answer questions based on this context. Be concise, helpful, and accurate. If as
             onFocus={(e) => e.target.style.borderColor = theme.text}
             onBlur={(e) => e.target.style.borderColor = theme.border}
           />
-          
+
           <button
             onClick={handleSearch}
             disabled={isLoading || !query.trim()}
@@ -244,7 +244,7 @@ Answer questions based on this context. Be concise, helpful, and accurate. If as
         {response && (
           <div style={{
             padding: '1.5em',
-            background: theme.bg === '#ffffff' ? '#f9f9f9' : '#0a0a0a',
+            background: theme.isDark ? '#0a0a0a' : '#f9f9f9',
             border: `1px solid ${theme.border}`,
             borderRadius: '4px',
             overflow: 'hidden'
@@ -265,11 +265,11 @@ Answer questions based on this context. Be concise, helpful, and accurate. If as
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.5em',
-                    background: theme.bg === '#ffffff' ? '#f5f5f5' : '#0f0f0f',
+                    background: theme.isDark ? '#0f0f0f' : '#f5f5f5',
                     transition: 'background 0.2s'
                   }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = theme.bg === '#ffffff' ? '#efefef' : '#1a1a1a'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = theme.bg === '#ffffff' ? '#f5f5f5' : '#0f0f0f'}
+                  onMouseEnter={(e) => e.currentTarget.style.background = theme.isDark ? '#1a1a1a' : '#efefef'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = theme.isDark ? '#0f0f0f' : '#f5f5f5'}
                 >
                   <span style={{
                     fontSize: '0.8em',
@@ -286,7 +286,7 @@ Answer questions based on this context. Be concise, helpful, and accurate. If as
                     Thinking
                   </span>
                 </div>
-                
+
                 {showReasoning && (
                   <div style={{
                     padding: '1em',
@@ -303,7 +303,7 @@ Answer questions based on this context. Be concise, helpful, and accurate. If as
                 )}
               </div>
             )}
-            
+
             <div style={{
               overflow: 'auto',
               maxWidth: '100%'
