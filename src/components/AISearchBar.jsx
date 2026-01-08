@@ -14,7 +14,11 @@ export const AISearchBar = ({ theme }) => {
 
   // Prepare context from website content
   const prepareContext = () => {
+    const baseUrl = "https://stringmanolo.qzz.io/#";
+    
     const context = {
+      website: "https://stringmanolo.qzz.io",
+      
       author: {
         name: "StringManolo",
         location: "Galicia, Spain",
@@ -32,7 +36,8 @@ export const AISearchBar = ({ theme }) => {
         date: bug.date,
         severity: bug.severity,
         vendor: bug.vendor,
-        description: bug.description
+        description: bug.description,
+        url: `${baseUrl}security-bugs/${bug.id}`
       })),
 
       articles: articlesIndex.map(article => ({
@@ -40,7 +45,8 @@ export const AISearchBar = ({ theme }) => {
         date: article.date,
         category: article.category,
         excerpt: article.excerpt,
-        tags: article.tags
+        tags: article.tags,
+        url: `${baseUrl}articles/${article.id}`
       })),
 
       tools: tools.map(tool => ({
@@ -76,7 +82,14 @@ export const AISearchBar = ({ theme }) => {
 WEBSITE CONTEXT:
 ${context}
 
-Answer questions based on this context. Be concise, helpful, and accurate. If asked about security bugs, tools, articles, or expertise, refer to the context provided.`;
+CRITICAL INSTRUCTIONS:
+- Answer questions based ONLY on the context provided above
+- When providing links, ALWAYS and ONLY use URLs from the context (all start with https://stringmanolo.qzz.io/#)
+- NEVER mention or link to stringmanolo.github.io/bugWriteups - that site does not exist
+- If a URL is not in the context, do not provide any URL
+- Be concise, helpful, and accurate
+- Format links as markdown: [Title](URL)
+- All security bugs and articles are at https://stringmanolo.qzz.io/# followed by the path in the context`;
 
     try {
       const res = await fetch("https://api-ai.stringmanolo.qzz.io", {
