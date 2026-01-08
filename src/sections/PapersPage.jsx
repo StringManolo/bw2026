@@ -19,7 +19,7 @@ export const PapersPage = ({ updateRoute, theme }) => (
   </article>
 );
 
-const PaperCard = ({ paper }) => (
+const PaperCard = ({ paper, theme }) => (
   <div style={{ paddingBottom: '1.5em', borderBottom: '1px solid #e5e5e5' }}>
     <h3 style={{ fontSize: '1.1em', marginBottom: '0.3em', fontWeight: 700 }}>{paper.title}</h3>
     <p style={{ color: theme.textTertiary, fontSize: '0.9em', marginBottom: '0.5em' }}>
