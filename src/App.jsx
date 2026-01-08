@@ -128,7 +128,10 @@ const StringManoloWeb = () => {
       transition: 'background-color 0.25s, color 0.25s'
     }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@400;700&display=swap');
+        /*
+         * @import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@400;700&display=swap');
+           Self hosting it
+         */
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
