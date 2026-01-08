@@ -28,7 +28,7 @@ export const AboutPage = ({ theme }) => (
             : '0 4px 12px rgba(0,0,0,0.1)'
         }}>
           <img 
-            src="/resources/about_stringmanolo.png" 
+            src="/resources/about_stringmanolo.webp" 
             alt="StringManolo - Cybersecurity Researcher"
             style={{
               width: '100%',

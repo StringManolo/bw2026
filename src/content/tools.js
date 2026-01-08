@@ -4,7 +4,7 @@ export const tools = [
     name: 'Panther',
     description: 'Privacy-focused Android browser with enhanced security controls.',
     repo: 'https://github.com/stringmanolo/panther',
-    image: 'https://raw.githubusercontent.com/stringmanolo/stringmanolo/main/images/panther_screenshot_landscape.jpg',
+    image: '/images/tools/panther_screenshot_landscape.webp',
     language: 'Java'
   },
   {
@@ -12,7 +12,7 @@ export const tools = [
     name: 'SOSCW',
     description: 'Linux Userland Distro for Hacking',
     repo: 'https://github.com/smallOS-cyberwarfare/smallOS-cyberwarfare',
-    image: 'https://raw.githubusercontent.com/stringmanolo/stringmanolo/main/images/soscw_screenshot.jpg',
+    image: '/images/tools/soscw_screenshot.webp',
     language: 'Multi-language'
   },
   {
@@ -20,7 +20,7 @@ export const tools = [
     name: 'Termux Hacking 101',
     description: 'Book about Termux and Hacking',
     repo: 'https://github.com/StringManolo/hackingTermux101',
-    image: 'https://raw.githubusercontent.com/stringmanolo/stringmanolo/main/images/th101.png',
+    image: '/images/tools/th101.webp',
     language: 'Multi-language'
   },
   {
@@ -28,7 +28,7 @@ export const tools = [
     name: 'Dark Messenger',
     description: 'Anonymous and decentralized messaging app',
     repo: 'https://github.com/StringManolo/darkmessenger',
-    image: 'https://raw.githubusercontent.com/stringmanolo/stringmanolo/main/images/dark_messenger_screenshot.jpg',
+    image: '/images/tools/dark_messenger_screenshot.webp',
     language: 'JavaScript'
   },
   {
@@ -36,7 +36,7 @@ export const tools = [
     name: 'invjsible',
     description: 'Hides data in plain sight with steganography',
     repo: 'https://github.com/StringManolo/invjsible',
-    image: 'https://raw.githubusercontent.com/stringmanolo/stringmanolo/main/images/invjsible_screenshot.jpg',
+    image: '/images/tools/invjsible_screenshot.webp',
     language: 'JavaScript'
   },
   {
@@ -44,7 +44,7 @@ export const tools = [
     name: 'StartPage',
     description: 'WebApp to use as the home page for browsers',
     repo: 'https://github.com/StringManolo/startpage',
-    image: 'https://raw.githubusercontent.com/stringmanolo/stringmanolo/main/images/startpage_screenshot.jpg',
+    image: '/images/tools/startpage_screenshot.webp',
     language: 'HTML/CSS/JS'
   },
   {
@@ -52,7 +52,7 @@ export const tools = [
     name: 'Kotlin APK Template',
     description: 'Compile Android APKs in 2 minutes - ZERO installation required',
     repo: 'https://github.com/StringManolo/KotlinApkTemplate',
-    image: 'https://raw.githubusercontent.com/stringmanolo/stringmanolo/main/images/kotlinapktemplate_screenshot.jpg',
+    image: '/images/tools/kotlinapktemplate_screenshot.webp',
     language: 'Kotlin'
   },
   {
@@ -60,7 +60,7 @@ export const tools = [
     name: 'AIehnBOT',
     description: 'Injects a LLM response into foro.elhacker.net',
     repo: 'https://github.com/stringmanolo/aiehnbot',
-    image: 'https://raw.githubusercontent.com/stringmanolo/stringmanolo/main/images/aiehnbot_screenshot.jpg',
+    image: '/images/tools/aiehnbot_screenshot.webp',
     language: 'JavaScript'
   },
   {
@@ -68,7 +68,7 @@ export const tools = [
     name: 'Simple Arguments Parser',
     description: 'Create CLI tools (js, ts, rust, c++, bash)',
     repo: 'https://github.com/stringmanolo/simpleargumentsparser',
-    image: 'https://raw.githubusercontent.com/stringmanolo/stringmanolo/main/images/sap_screenshot.jpg',
+    image: '/images/tools/sap_screenshot.webp',
     language: 'Multi-language'
   },
   {
@@ -76,7 +76,7 @@ export const tools = [
     name: 'Steel Spell Scale',
     description: 'Turn Based RPG',
     repo: 'https://github.com/stringmanolo/steelspellscale',
-    image: 'https://raw.githubusercontent.com/stringmanolo/stringmanolo/main/images/sss_screenshot.jpg',
+    image: '/images/tools/sss_screenshot.webp',
     language: 'JavaScript'
   },
   {
@@ -84,7 +84,7 @@ export const tools = [
     name: 'Vulnera',
     description: 'Run and manage multiple vulnerable server environments for security testing',
     repo: 'https://github.com/stringmanolo/vulnera',
-    image: 'https://raw.githubusercontent.com/stringmanolo/stringmanolo/main/images/vulnera_screenshot.png',
+    image: '/images/tools/vulnera_screenshot.webp',
     language: 'Javascript'
   },
   {
@@ -92,7 +92,7 @@ export const tools = [
     name: 'Self Control',
     description: 'Control your Android device programatically without root (no PC)',
     repo: 'https://github.com/stringmanolo/selfcontrol',
-    image: 'https://raw.githubusercontent.com/stringmanolo/stringmanolo/main/images/selfcontrol_screenshot.jpg',
+    image: '/images/tools/selfcontrol_screenshot.webp',
     language: 'Java'
   },
   {
@@ -100,7 +100,7 @@ export const tools = [
     name: 'TGBOT.sh',
     description: 'Run commands in a remote system using Telegram chat',
     repo: 'https://github.com/stringmanolo/tgbot.sh',
-    image: 'https://raw.githubusercontent.com/stringmanolo/stringmanolo/main/images/tgbotsh_screenshot.png',
+    image: '/images/tools/tgbotsh_screenshot.webp',
     language: 'Shell'
   },
   {
@@ -108,7 +108,7 @@ export const tools = [
     name: 'nbmxbsf',
     description: 'General Purpose Telegram Bot (engine)',
     repo: 'https://github.com/stringmanolo/nbmxbsf',
-    image: 'https://raw.githubusercontent.com/stringmanolo/stringmanolo/main/images/nbmxbsf_screenshot.jpg',
+    image: '/images/tools/nbmxbsf_screenshot.webp',
     language: 'Typescript'
   },
   {
@@ -116,7 +116,7 @@ export const tools = [
     name: 'Fast Framework',
     description: 'Javascript Framework (components, ts, jsx, router, vdom, ...)',
     repo: 'https://github.com/stringmanolo/ff2',
-    image: 'https://raw.githubusercontent.com/stringmanolo/stringmanolo/main/images/ff_screenshot.jpg',
+    image: '/images/tools/ff_screenshot.webp',
     language: 'JavaScript'
   },
   {
@@ -124,7 +124,7 @@ export const tools = [
     name: 'Bug Writeups',
     description: 'SPA made with Fast Framework to post vulnerabilities I discovered',
     repo: 'https://stringmanolo.github.io/bugWriteups/#about',
-    image: 'https://raw.githubusercontent.com/stringmanolo/stringmanolo/main/images/bugwriteups_screenshot.jpg',
+    image: '/images/tools/bugwriteups_screenshot.webp',
     language: 'JavaScript'
   }
 ];

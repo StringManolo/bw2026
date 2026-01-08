@@ -2,7 +2,7 @@
 
 Report made 1 oct, 2020 to mypage.w3schools.com where I found a Stored XSS.
 
-![Alert box prompted from w3schools.com](/resources/w3schoolsxss.png)
+![Alert box prompted from w3schools.com](/resources/w3schoolsxss.webp)
 
 I found this stored XSS bug testing w3schools security. Just made an account following the login link in the main domain. Here is the original report in case you want to take a look.
 
@@ -31,6 +31,6 @@ In case it's a "feature", should be removed anyways. I'm sure there is a lot of 
 
 ## This is the payload:
 
-![inserted payload](/resources/w3schoolspayload.png)
+![inserted payload](/resources/w3schoolspayload.webp)
 
 The bug was totally a low hanging fruit.

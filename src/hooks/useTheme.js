@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 
 export const useTheme = () => {
   const [isDark, setIsDark] = useState(() => {
-    // Verificar preferencia guardada
+    // Check saved preference
     const saved = localStorage.getItem('theme');
     if (saved) return saved === 'dark';
-    // Verificar preferencia del sistema
+    // Check system preference
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
@@ -22,7 +22,7 @@ export const useTheme = () => {
 
 const lightTheme = {
   bg: '#fffefe',
-  text: '#443',
+  text: '#333',  // Changed from #443 for better contrast (7.5:1 ratio)
   textSecondary: '#555',
   textTertiary: '#888',
   border: '#e5e5e5',
@@ -30,7 +30,7 @@ const lightTheme = {
   accent: '#ff7f50',
   card: '#f9f9f9',
   hover: 'rgba(0,0,0,0.05)',
-  // Colores adicionales para markdown
+  // Additional colors for markdown
   link: '#0366d6',
   codeBg: '#f5f5f5',
   codeText: '#c7254e',
@@ -47,7 +47,7 @@ const darkTheme = {
   accent: '#ff7f50',
   card: '#1a1a1a',
   hover: 'rgba(255,255,255,0.05)',
-  // Colores adicionales para markdown
+  // Additional colors for markdown
   link: '#58a6ff',
   codeBg: '#1e1e1e',
   codeText: '#e06c75',

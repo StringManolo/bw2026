@@ -1,9 +1,9 @@
 import { tools } from '../content/tools';
 
-export const ToolsPage = ({ updateRoute }) => (
+export const ToolsPage = ({ updateRoute, theme }) => (
   <article>
     <h1 style={{ fontSize: '2.5em', marginBottom: '0.5em', fontWeight: 700 }}>Security Tools & Projects</h1>
-    <p style={{ color: '#555', marginBottom: '2em', fontSize: '1.1em' }}>
+    <p style={{ color: theme.textSecondary, marginBottom: '2em', fontSize: '1.1em' }}>
       Open-source utilities, frameworks, and research tools for security testing and development
     </p>
 
@@ -14,26 +14,26 @@ export const ToolsPage = ({ updateRoute }) => (
         gap: '2em',
         marginTop: '2em'
       }}>
-        {tools.map((tool) => (
-          <ToolCard key={tool.id} tool={tool} />
+        {tools.map((tool, index) => (
+          <ToolCard key={tool.id} tool={tool} theme={theme} priority={index < 4} />
         ))}
       </div>
     ) : (
-      <div style={{ color: '#888', padding: '2em', textAlign: 'center' }}>
+      <div style={{ color: theme.textTertiary, padding: '2em', textAlign: 'center' }}>
         <p>Coming soon with tool documentation.</p>
       </div>
     )}
   </article>
 );
 
-const ToolCard = ({ tool }) => {
+const ToolCard = ({ tool, theme, priority }) => {
   const cardStyle = {
-    border: '1px solid #e5e5e5',
+    border: `1px solid ${theme.border}`,
     borderRadius: '8px',
     overflow: 'hidden',
     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
     cursor: 'pointer',
-    backgroundColor: '#fff',
+    backgroundColor: theme.card,
     display: 'flex',
     flexDirection: 'column',
     height: '100%'
@@ -43,7 +43,7 @@ const ToolCard = ({ tool }) => {
     width: '100%',
     height: '200px',
     overflow: 'hidden',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: theme.codeBg,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
@@ -73,13 +73,13 @@ const ToolCard = ({ tool }) => {
     fontSize: '1.3em',
     fontWeight: 700,
     margin: 0,
-    color: '#000'
+    color: theme.text
   };
 
   const languageBadgeStyle = {
     padding: '0.3em 0.8em',
-    backgroundColor: '#f0f0f0',
-    color: '#666',
+    backgroundColor: theme.codeBg,
+    color: theme.textSecondary,
     fontSize: '0.75em',
     fontWeight: 600,
     borderRadius: '12px',
@@ -87,7 +87,7 @@ const ToolCard = ({ tool }) => {
   };
 
   const descriptionStyle = {
-    color: '#555',
+    color: theme.textSecondary,
     fontSize: '0.95em',
     lineHeight: '1.6',
     marginBottom: '1em',
@@ -96,7 +96,7 @@ const ToolCard = ({ tool }) => {
 
   const linkStyle = {
     display: 'inline-block',
-    color: '#0066cc',
+    color: theme.link,
     textDecoration: 'none',
     fontWeight: 600,
     fontSize: '0.9em',
@@ -122,7 +122,8 @@ const ToolCard = ({ tool }) => {
           src={tool.image}
           alt={`${tool.name} screenshot`}
           style={imageStyle}
-          loading="lazy"
+          loading={priority ? 'eager' : 'lazy'}
+          fetchpriority={priority ? 'high' : 'auto'}
         />
       </div>
 
@@ -140,8 +141,8 @@ const ToolCard = ({ tool }) => {
           rel="noopener noreferrer"
           style={linkStyle}
           onClick={(e) => e.stopPropagation()}
-          onMouseEnter={(e) => e.target.style.color = '#004499'}
-          onMouseLeave={(e) => e.target.style.color = '#0066cc'}
+          onMouseEnter={(e) => e.target.style.opacity = '0.8'}
+          onMouseLeave={(e) => e.target.style.opacity = '1'}
         >
           View Repository →
         </a>
