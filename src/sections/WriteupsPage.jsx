@@ -21,7 +21,7 @@ export const WriteupsPage = ({ updateRoute, theme }) => (
   </article>
 );
 
-const WriteupLink = ({ title, desc }) => (
+const WriteupLink = ({ title, desc, theme }) => (
   <div style={{ paddingBottom: '1.5em', borderBottom: '1px solid #e5e5e5' }}>
     <h3 style={{ fontSize: '1.1em', marginBottom: '0.5em', fontWeight: 700 }}>{title}</h3>
     <p style={{ color: theme.textSecondary, fontSize: '0.95em' }}>{desc}</p>

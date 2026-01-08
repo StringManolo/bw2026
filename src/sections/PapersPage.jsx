@@ -8,7 +8,7 @@ export const PapersPage = ({ updateRoute, theme }) => (
     {papers.length > 0 ? (
       <div style={{ display: 'grid', gap: '2em' }}>
         {papers.map((paper) => (
-          <PaperCard key={paper.id} paper={paper} />
+          <PaperCard key={paper.id} paper={paper} theme={theme} />
         ))}
       </div>
     ) : (
