@@ -1,13 +1,15 @@
+import { AISearchBar } from '../components/AISearchBar';
+
 export const HomePage = ({ updateRoute, theme }) => (
   <article>
-    <h1 style={{ 
+    <h1 style={{
       fontSize: 'clamp(2.5em, 4vw, 3.5em)',
       marginBottom: '0.5em',
       fontWeight: 700,
       lineHeight: 1.2
     }}>Security Research & Development</h1>
-    
-    <p style={{ 
+
+    <p style={{
       fontSize: 'clamp(1.1em, 1.3vw, 1.3em)',
       color: theme.textSecondary,
       maxWidth: '700px',
@@ -16,6 +18,9 @@ export const HomePage = ({ updateRoute, theme }) => (
     }}>
       Cybersecurity researcher and full-stack developer specializing in vulnerability research, security tools, and open-source contributions. Based in Galicia, Spain.
     </p>
+
+    {/* AI Search Bar Integration */}
+    <AISearchBar theme={theme} />
 
     <section style={{ marginBottom: '4em' }}>
       <h2 style={{ fontSize: '1.3em', marginBottom: '1.5em', fontWeight: 700 }}>Explore by Category</h2>
@@ -30,8 +35,8 @@ export const HomePage = ({ updateRoute, theme }) => (
           { title: 'Miscellaneous', desc: 'Resources and notes on various topics', route: 'misc' },
           { title: 'About', desc: 'About StringManolo', route: 'about' }
         ].map((cat, idx) => (
-          <div 
-            key={idx} 
+          <div
+            key={idx}
             className="section-card"
             onClick={() => updateRoute(cat.route)}
           >
