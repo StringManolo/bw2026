@@ -28,7 +28,7 @@ export const HomePage = ({ updateRoute, theme }) => (
           { title: 'Tutorials', desc: 'Educational content on security topics', route: 'tutorials' },
           { title: 'Papers', desc: 'Academic and technical publications', route: 'papers' },
           { title: 'Miscellaneous', desc: 'Resources and notes on various topics', route: 'misc' },
-          { title: 'Development', desc: 'Project development and coding practices', route: 'development' }
+          { title: 'About', desc: 'About StringManolo', route: 'about' }
         ].map((cat, idx) => (
           <div 
             key={idx} 
