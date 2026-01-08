@@ -1,9 +1,9 @@
-export const CookiePolicyPage = () => (
+export const CookiePolicyPage = ({theme}) => (
   <article>
     <h1 style={{ fontSize: '2.5em', marginBottom: '1.5em', fontWeight: 700 }}>Cookie Policy</h1>
     
-    <div style={{ maxWidth: '900px', color: '#555', lineHeight: '1.8' }}>
-      <p style={{ marginBottom: '1em', fontStyle: 'italic', color: '#888' }}>
+    <div style={{ maxWidth: '900px', color: theme.textSecondary, lineHeight: '1.8' }}>
+      <p style={{ marginBottom: '1em', fontStyle: 'italic', color: theme.textTertiary }}>
         Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
       </p>
 

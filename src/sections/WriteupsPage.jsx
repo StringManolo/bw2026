@@ -1,7 +1,7 @@
-export const WriteupsPage = ({ updateRoute }) => (
+export const WriteupsPage = ({ updateRoute, theme }) => (
   <article>
     <h1 style={{ fontSize: '2.5em', marginBottom: '0.5em', fontWeight: 700 }}>Writeups</h1>
-    <p style={{ color: '#555', marginBottom: '2em' }}>Detailed vulnerability reports and analysis</p>
+    <p style={{ color: theme.textSecondary, marginBottom: '2em' }}>Detailed vulnerability reports and analysis</p>
     
     <section style={{ marginBottom: '3em', paddingBottom: '2em', borderBottom: '1px solid #e5e5e5' }}>
       <h2 style={{ fontSize: '1.3em', marginBottom: '1.5em', fontWeight: 700 }}>XSS Vulnerabilities</h2>
@@ -24,6 +24,6 @@ export const WriteupsPage = ({ updateRoute }) => (
 const WriteupLink = ({ title, desc }) => (
   <div style={{ paddingBottom: '1.5em', borderBottom: '1px solid #e5e5e5' }}>
     <h3 style={{ fontSize: '1.1em', marginBottom: '0.5em', fontWeight: 700 }}>{title}</h3>
-    <p style={{ color: '#666', fontSize: '0.95em' }}>{desc}</p>
+    <p style={{ color: theme.textSecondary, fontSize: '0.95em' }}>{desc}</p>
   </div>
 );

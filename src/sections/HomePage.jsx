@@ -1,4 +1,4 @@
-export const HomePage = ({ updateRoute }) => (
+export const HomePage = ({ updateRoute, theme }) => (
   <article>
     <h1 style={{ 
       fontSize: 'clamp(2.5em, 4vw, 3.5em)',
@@ -9,7 +9,7 @@ export const HomePage = ({ updateRoute }) => (
     
     <p style={{ 
       fontSize: 'clamp(1.1em, 1.3vw, 1.3em)',
-      color: '#555',
+      color: theme.textSecondary,
       maxWidth: '700px',
       lineHeight: 1.8,
       marginBottom: '3em'
@@ -36,7 +36,7 @@ export const HomePage = ({ updateRoute }) => (
             onClick={() => updateRoute(cat.route)}
           >
             <h3 style={{ fontSize: '1.1em', marginBottom: '0.5em', fontWeight: 700 }}>{cat.title}</h3>
-            <p style={{ color: '#666', fontSize: '0.95em' }}>{cat.desc}</p>
+            <p style={{ color: theme.textSecondary, fontSize: '0.95em' }}>{cat.desc}</p>
           </div>
         ))}
       </div>
@@ -47,15 +47,15 @@ export const HomePage = ({ updateRoute }) => (
       <div style={{ display: 'grid', gap: '2em' }}>
         <div>
           <h3 style={{ fontSize: '1.1em', marginBottom: '0.5em', fontWeight: 700 }}>Security</h3>
-          <p style={{ color: '#555' }}>Vulnerability research, cryptography, privacy-focused solutions, and threat analysis.</p>
+          <p style={{ color: theme.textSecondary }}>Vulnerability research, cryptography, privacy-focused solutions, and threat analysis.</p>
         </div>
         <div>
           <h3 style={{ fontSize: '1.1em', marginBottom: '0.5em', fontWeight: 700 }}>Development</h3>
-          <p style={{ color: '#555' }}>Full-stack web development, Android applications, Linux tools, and CLI utilities.</p>
+          <p style={{ color: theme.textSecondary }}>Full-stack web development, Android applications, Linux tools, and CLI utilities.</p>
         </div>
         <div>
           <h3 style={{ fontSize: '1.1em', marginBottom: '0.5em', fontWeight: 700 }}>Open Source</h3>
-          <p style={{ color: '#555' }}>Active contributor to security projects, developer tools, and community initiatives.</p>
+          <p style={{ color: theme.textSecondary }}>Active contributor to security projects, developer tools, and community initiatives.</p>
         </div>
       </div>
     </section>

@@ -1,8 +1,8 @@
-export const ProjectsPage = ({ updateRoute }) => (
+export const ProjectsPage = ({ updateRoute, theme }) => (
   <article>
     <h1 style={{ fontSize: '2.5em', marginBottom: '1.5em', fontWeight: 700 }}>Projects</h1>
     
-    <div style={{ color: '#555', lineHeight: '1.8', maxWidth: '700px' }}>
+    <div style={{ color: theme.textSecondary, lineHeight: '1.8', maxWidth: '700px' }}>
       <p style={{ marginBottom: '2em' }}>Open-source projects and frameworks</p>
 
       <div style={{ display: 'grid', gap: '2em' }}>
@@ -14,7 +14,7 @@ export const ProjectsPage = ({ updateRoute }) => (
         ].map((proj, idx) => (
           <div key={idx} style={{ paddingBottom: '1.5em', borderBottom: idx < 3 ? '1px solid #e5e5e5' : 'none' }}>
             <h3 style={{ fontSize: '1.1em', marginBottom: '0.5em', fontWeight: 700 }}>{proj.title}</h3>
-            <p style={{ color: '#666' }}>{proj.desc}</p>
+            <p style={{ color: theme.textSecondary }}>{proj.desc}</p>
           </div>
         ))}
       </div>
