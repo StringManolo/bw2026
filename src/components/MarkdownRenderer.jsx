@@ -1,25 +1,56 @@
 import { useEffect, useRef } from 'react';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
-import hljs from 'highlight.js';
 
-// NO importamos los CSS aquí, los cargaremos dinámicamente
+// Import only core highlight.js (no languages)
+import hljs from 'highlight.js/lib/core';
 
+// Import ONLY the languages you actually use (based on grep results)
+import bash from 'highlight.js/lib/languages/bash';
+import javascript from 'highlight.js/lib/languages/javascript';
+import html from 'highlight.js/lib/languages/xml'; // xml = html
+import vim from 'highlight.js/lib/languages/vim';
+import php from 'highlight.js/lib/languages/php';
+import python from 'highlight.js/lib/languages/python';
+import sql from 'highlight.js/lib/languages/sql';
+import nginx from 'highlight.js/lib/languages/nginx';
+import http from 'highlight.js/lib/languages/http';
+import cpp from 'highlight.js/lib/languages/cpp';
+import apache from 'highlight.js/lib/languages/apache';
+
+// Register only these languages
+hljs.registerLanguage('bash', bash);
+hljs.registerLanguage('javascript', javascript);
+hljs.registerLanguage('js', javascript); // alias
+hljs.registerLanguage('html', html);
+hljs.registerLanguage('xml', html);
+hljs.registerLanguage('vim', vim);
+hljs.registerLanguage('php', php);
+hljs.registerLanguage('python', python);
+hljs.registerLanguage('bbcode', html); // bbcode uses html syntax
+hljs.registerLanguage('sql', sql);
+hljs.registerLanguage('nginx', nginx);
+hljs.registerLanguage('http', http);
+hljs.registerLanguage('cpp', cpp);
+hljs.registerLanguage('c++', cpp); // alias
+hljs.registerLanguage('apache', apache);
+
+// Don't import CSS here, we'll load it dynamically
 export const MarkdownRenderer = ({ content, theme }) => {
   const containerRef = useRef(null);
 
-  // Cargar el tema de highlight.js según el tema actual
+  // Load highlight.js theme based on current theme
   useEffect(() => {
-    // Remover hojas de estilo anteriores de highlight.js
+    // Remove previous highlight.js stylesheets
     const existingStylesheets = document.querySelectorAll('link[data-hljs-theme]');
     existingStylesheets.forEach(sheet => sheet.remove());
 
-    // Crear y añadir la hoja de estilo correcta
+    // Create and add the correct stylesheet
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.setAttribute('data-hljs-theme', 'true');
 
-    // Elegir tema según el modo
+    // Choose theme based on mode
     if (theme.isDark) {
       link.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css';
     } else {
@@ -29,7 +60,7 @@ export const MarkdownRenderer = ({ content, theme }) => {
     document.head.appendChild(link);
 
     return () => {
-      // Limpiar al desmontar
+      // Cleanup on unmount
       link.remove();
     };
   }, [theme.isDark]);
@@ -49,7 +80,7 @@ export const MarkdownRenderer = ({ content, theme }) => {
 
     // Configure marked with custom renderer for headers with IDs
     const renderer = new marked.Renderer();
-    
+
     // Only override heading to add IDs, everything else uses default
     renderer.heading = function({ text, depth, tokens }) {
       const slug = slugify(text);
@@ -66,7 +97,7 @@ export const MarkdownRenderer = ({ content, theme }) => {
       sanitize: false,
       renderer: renderer,
       highlight: function(code, lang) {
-        // Si el lenguaje es válido, aplica highlight
+        // If language is valid, apply highlight
         if (lang && hljs.getLanguage(lang)) {
           try {
             return hljs.highlight(code, { language: lang }).value;
@@ -74,15 +105,15 @@ export const MarkdownRenderer = ({ content, theme }) => {
             console.error('Highlight error:', err);
           }
         }
-        // Si no, devuelve el código sin highlight
+        // Otherwise, return code without highlight
         return code;
       }
     });
 
-    // Configurar DOMPurify para permitir tags necesarios para payloads
+    // Configure DOMPurify to allow necessary tags for payloads
     const cleanHTML = DOMPurify.sanitize(marked.parse(content), {
       ALLOWED_TAGS: [
-        // Markdown básico
+        // Basic Markdown
         'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
         'p', 'br', 'hr',
         'strong', 'em', 'b', 'i', 'u', 's', 'del',
@@ -91,7 +122,7 @@ export const MarkdownRenderer = ({ content, theme }) => {
         'blockquote',
         'a', 'img',
         'table', 'thead', 'tbody', 'tr', 'th', 'td',
-        // Tags para payloads (IMPORTANTE para writeups de seguridad)
+        // Tags for payloads (IMPORTANT for security writeups)
         'script', 'iframe', 'object', 'embed',
         'form', 'input', 'button', 'select', 'textarea',
         'div', 'span', 'section', 'article',
@@ -103,7 +134,7 @@ export const MarkdownRenderer = ({ content, theme }) => {
         'target', 'rel', 'type', 'name', 'value',
         'width', 'height', 'style',
         'colspan', 'rowspan',
-        'onclick', 'onerror', 'onload', // Para payloads XSS
+        'onclick', 'onerror', 'onload', // For XSS payloads
         'action', 'method', 'enctype',
         'viewBox', 'd', 'fill', 'stroke'
       ],
@@ -113,7 +144,7 @@ export const MarkdownRenderer = ({ content, theme }) => {
 
     containerRef.current.innerHTML = cleanHTML;
 
-    // Aplicar highlight a los bloques que no fueron procesados por marked
+    // Apply highlight to blocks that weren't processed by marked
     containerRef.current.querySelectorAll('pre code:not(.hljs)').forEach((block) => {
       hljs.highlightElement(block);
     });
@@ -133,7 +164,7 @@ export const MarkdownRenderer = ({ content, theme }) => {
   );
 };
 
-// Estilos globales para el contenido markdown
+// Global styles for markdown content
 export const markdownStyles = (theme) => `
   .markdown-content h1 {
     font-size: 2em;
@@ -199,7 +230,7 @@ export const markdownStyles = (theme) => `
     line-height: 1.5;
   }
 
-  /* Syntax highlighting ajustes */
+  /* Syntax highlighting adjustments */
   .markdown-content .hljs {
     background: transparent !important;
     padding: 0 !important;
@@ -253,7 +284,7 @@ export const markdownStyles = (theme) => `
     margin: 2em 0;
   }
 
-  /* Estilos para payloads de seguridad */
+  /* Styles for security payloads */
   .markdown-content .payload-box {
     background-color: ${theme.isDark ? '#2d1f1f' : '#fff5f5'};
     border: 1px solid ${theme.isDark ? '#5c3333' : '#ffcccc'};
