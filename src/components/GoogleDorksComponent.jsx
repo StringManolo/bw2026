@@ -7,77 +7,202 @@ export const GoogleDorksComponent = ({ theme }) => {
   const [toastMessage, setToastMessage] = useState('');
 
   const dorkTemplates = [
-    {
-      title: 'Backup Files',
-      desc: 'Search for backup files that might contain sensitive data',
-      query: 'site:{TARGET} ext:bkf OR ext:bkp OR ext:bak OR ext:old OR ext:backup'
-    },
-    {
-      title: 'Config Files',
-      desc: 'Find configuration files that may expose credentials or system details',
-      query: 'site:{TARGET} ext:xml OR ext:conf OR ext:cnf OR ext:reg OR ext:inf OR ext:rdp OR ext:cfg OR ext:txt OR ext:ora OR ext:ini OR ext:env'
-    },
-    {
-      title: 'Directory Listing',
-      desc: 'Discover exposed directory listings showing internal file structure',
-      query: 'site:{TARGET} intitle:index.of'
-    },
-    {
-      title: 'Exposed Databases',
-      desc: 'Look for publicly accessible database files',
-      query: 'site:{TARGET} ext:sql OR ext:dbf OR ext:mdb'
-    },
-    {
-      title: 'Log Files',
-      desc: 'Find log files that might reveal system behavior or errors',
-      query: 'site:{TARGET} ext:log'
-    },
-    {
-      title: 'Login Pages',
-      desc: 'Locate authentication and login endpoints',
-      query: 'site:{TARGET} inurl:login OR inurl:signin OR inurl:auth OR inurl:admin'
-    },
-    {
-      title: 'Public Documents',
-      desc: 'Search for exposed documents',
-      query: 'site:{TARGET} ext:doc OR ext:docx OR ext:pdf OR ext:xls OR ext:xlsx OR ext:ppt OR ext:pptx OR ext:csv'
-    },
-    {
-      title: 'PHP Errors',
-      desc: 'Find pages displaying PHP error messages that expose code details',
-      query: 'site:{TARGET} "PHP Parse error" OR "PHP Warning" OR "PHP Error"'
-    },
-    {
-      title: 'PHP Info Pages',
-      desc: 'Discover phpinfo() pages revealing server configuration',
-      query: 'site:{TARGET} ext:php intitle:phpinfo "published by the PHP Group"'
-    },
-    {
-      title: 'SQL Errors',
-      desc: 'Locate SQL error messages indicating potential injection points',
-      query: 'site:{TARGET} intext:"sql syntax near" OR intext:"syntax error has occurred" OR intext:"incorrect syntax near" OR intext:"Warning: mysql_connect()" OR intext:"Warning: mysql_query()" OR intext:"Warning: pg_connect()"'
-    },
-    {
-      title: 'GitHub/GitLab',
-      desc: 'Find code repositories and leaked source code',
-      query: '"{TARGET}" site:github.com OR site:gitlab.com'
-    },
-    {
-      title: 'Pastebin Sites',
-      desc: 'Search paste sites for leaked credentials or sensitive data',
-      query: '{TARGET} site:pastebin.com OR site:paste2.org OR site:pastehtml.com OR site:slexy.org OR site:dpaste.org OR site:hastebin.com OR site:justpaste.it'
-    },
-    {
-      title: 'StackOverflow',
-      desc: 'Find developer discussions that might reveal technical details',
-      query: '{TARGET} site:stackoverflow.com'
-    },
-    {
-      title: 'Email Addresses',
-      desc: 'Discover email addresses associated with the domain',
-      query: 'site:{TARGET} intext:"@{TARGET}" OR intext:"email"'
-    }
-  ];
+  {
+    title: 'Backup Files',
+    desc: 'Search for backup files that might contain sensitive data',
+    query: 'site:{TARGET} ext:bkf OR ext:bkp OR ext:bak OR ext:old OR ext:backup'
+  },
+  {
+    title: 'Config Files',
+    desc: 'Find configuration files that may expose credentials or system details',
+    query: 'site:{TARGET} ext:xml OR ext:conf OR ext:cnf OR ext:reg OR ext:inf OR ext:rdp OR ext:cfg OR ext:txt OR ext:ora OR ext:ini OR ext:env'
+  },
+  {
+    title: 'Directory Listing',
+    desc: 'Discover exposed directory listings showing internal file structure',
+    query: 'site:{TARGET} intitle:index.of'
+  },
+  {
+    title: 'Exposed Databases',
+    desc: 'Look for publicly accessible database files',
+    query: 'site:{TARGET} ext:sql OR ext:dbf OR ext:mdb'
+  },
+  {
+    title: 'Log Files',
+    desc: 'Find log files that might reveal system behavior or errors',
+    query: 'site:{TARGET} ext:log'
+  },
+  {
+    title: 'Login Pages',
+    desc: 'Locate authentication and login endpoints',
+    query: 'site:{TARGET} inurl:login OR inurl:signin OR inurl:auth OR inurl:admin'
+  },
+  {
+    title: 'Public Documents',
+    desc: 'Search for exposed documents',
+    query: 'site:{TARGET} ext:doc OR ext:docx OR ext:pdf OR ext:xls OR ext:xlsx OR ext:ppt OR ext:pptx OR ext:csv'
+  },
+  {
+    title: 'PHP Errors',
+    desc: 'Find pages displaying PHP error messages that expose code details',
+    query: 'site:{TARGET} "PHP Parse error" OR "PHP Warning" OR "PHP Error"'
+  },
+  {
+    title: 'PHP Info Pages',
+    desc: 'Discover phpinfo() pages revealing server configuration',
+    query: 'site:{TARGET} ext:php intitle:phpinfo "published by the PHP Group"'
+  },
+  {
+    title: 'SQL Errors',
+    desc: 'Locate SQL error messages indicating potential injection points',
+    query: 'site:{TARGET} intext:"sql syntax near" OR intext:"syntax error has occurred" OR intext:"incorrect syntax near" OR intext:"Warning: mysql_connect()" OR intext:"Warning: mysql_query()" OR intext:"Warning: pg_connect()"'
+  },
+  {
+    title: 'GitHub/GitLab',
+    desc: 'Find code repositories and leaked source code',
+    query: '"{TARGET}" site:github.com OR site:gitlab.com'
+  },
+  {
+    title: 'Pastebin Sites',
+    desc: 'Search paste sites for leaked credentials or sensitive data',
+    query: '{TARGET} site:pastebin.com OR site:paste2.org OR site:pastehtml.com OR site:slexy.org OR site:dpaste.org OR site:hastebin.com OR site:justpaste.it'
+  },
+  {
+    title: 'StackOverflow',
+    desc: 'Find developer discussions that might reveal technical details',
+    query: '{TARGET} site:stackoverflow.com'
+  },
+  {
+    title: 'Email Addresses',
+    desc: 'Discover email addresses associated with the domain',
+    query: 'site:{TARGET} intext:"@{TARGET}" OR intext:"email"'
+  },
+  {
+    title: 'Admin Panels',
+    desc: 'Common administration panels (CMS, servers, etc.)',
+    query: 'site:{TARGET} intitle:"admin" OR intitle:"dashboard" OR intitle:"panel" OR intitle:"webmin" OR intitle:"cpanel" OR intitle:"plesk"'
+  },
+  {
+    title: 'Exposed Ports and Services',
+    desc: 'Find exposed services (SSH, FTP, RDP, etc.)',
+    query: 'site:{TARGET} intitle:"index of" "ssh" OR "ftp" OR "rdp" OR "vnc" OR "telnet"'
+  },
+  {
+    title: 'Exposed Jenkins',
+    desc: 'Publicly accessible Jenkins instances',
+    query: 'site:{TARGET} intitle:"Dashboard [Jenkins]" OR inurl:"/jenkins/" OR inurl:":8080/jenkins"'
+  },
+  {
+    title: 'Docker and Kubernetes',
+    desc: 'Exposed Docker/Kubernetes dashboards',
+    query: 'site:{TARGET} intitle:"Kubernetes Dashboard" OR inurl:"/dashboard/" OR "Docker Desktop" OR "Portainer"'
+  },
+  {
+    title: 'Password Files',
+    desc: 'Look for files containing passwords',
+    query: 'site:{TARGET} ext:txt "password" OR "passwd" OR "pwd" OR "creds" OR "credentials"'
+  },
+  {
+    title: 'Private SSH Keys',
+    desc: 'Exposed private SSH key files',
+    query: 'site:{TARGET} "-----BEGIN RSA PRIVATE KEY-----" OR "-----BEGIN DSA PRIVATE KEY-----" OR "-----BEGIN EC PRIVATE KEY-----"'
+  },
+  {
+    title: 'AWS and Cloud Keys',
+    desc: 'Exposed cloud service credentials',
+    query: 'site:{TARGET} "AKIA[0-9A-Z]{16}" OR "aws_access_key_id" OR "aws_secret_access_key" OR "s3.amazonaws.com"'
+  },
+  {
+    title: 'Environment Variables',
+    desc: '.env files containing sensitive configurations',
+    query: 'site:{TARGET} ext:env "DB_PASSWORD" OR "API_KEY" OR "SECRET_KEY" OR "TOKEN"'
+  },
+  {
+    title: 'API Documentation',
+    desc: 'Exposed API documentation (Swagger, OpenAPI)',
+    query: 'site:{TARGET} intitle:"Swagger UI" OR "swagger.json" OR "api-docs" OR "openapi.json"'
+  },
+  {
+    title: 'GraphQL Endpoints',
+    desc: 'Exposed GraphQL interfaces',
+    query: 'site:{TARGET} inurl:"/graphql" OR inurl:"/graphiql" OR inurl:"/playground" "graphql"'
+  },
+  {
+    title: 'WebSockets',
+    desc: 'Exposed WebSocket endpoints',
+    query: 'site:{TARGET} inurl:"ws://" OR inurl:"wss://" OR "socket.io"'
+  },
+  {
+    title: 'LFI/RFI',
+    desc: 'Possible file inclusion vulnerabilities',
+    query: 'site:{TARGET} inurl:"page=" OR inurl:"file=" OR inurl:"cat=" OR inurl:"path=" OR inurl:"include="'
+  },
+  {
+    title: 'XSS',
+    desc: 'Parameters that could be vulnerable to XSS',
+    query: 'site:{TARGET} inurl:"q=" OR inurl:"search=" OR inurl:"id=" OR inurl:"redirect=" OR inurl:"return="'
+  },
+  {
+    title: 'Open Redirects',
+    desc: 'Possible open redirect vulnerabilities',
+    query: 'site:{TARGET} inurl:"redirect" OR inurl:"url" OR inurl:"next" OR inurl:"return" OR inurl:"rurl"'
+  },
+  {
+    title: 'SQL Injection',
+    desc: 'Database parameters in URLs',
+    query: 'site:{TARGET} inurl:"id=" OR inurl:"pid=" OR inurl:"category=" OR inurl:"item=" OR inurl:"user="'
+  },
+  {
+    title: 'WordPress',
+    desc: 'WordPress files and configurations',
+    query: 'site:{TARGET} inurl:"wp-content" OR inurl:"wp-includes" OR "wp-config.php" OR "xmlrpc.php"'
+  },
+  {
+    title: 'Exposed Git',
+    desc: 'Exposed .git repositories',
+    query: 'site:{TARGET} inurl:"/.git/" OR intitle:"Index of /.git"'
+  },
+  {
+    title: 'Subdomains',
+    desc: 'Find subdomains of the target',
+    query: 'site:*.{TARGET} -www'
+  },
+  {
+    title: 'Cloud Storage',
+    desc: 'Exposed cloud storage buckets',
+    query: 'site:{TARGET} "s3.amazonaws.com" OR "storage.googleapis.com" OR "blob.core.windows.net"'
+  },
+  {
+    title: 'Debug Mode',
+    desc: 'Applications in debug/test mode',
+    query: 'site:{TARGET} "DEBUG" OR "debug=true" OR "test" OR "staging" OR "development"'
+  },
+  {
+    title: 'Developer Console',
+    desc: 'Exposed development consoles',
+    query: 'site:{TARGET} inurl:"/console" OR inurl:"/debug" OR inurl:"/_debug"'
+  },
+  {
+    title: 'Metrics and Monitoring',
+    desc: 'Exposed metrics and monitoring dashboards',
+    query: 'site:{TARGET} inurl:"/metrics" OR inurl:"/status" OR inurl:"/health" OR "prometheus" OR "grafana"'
+  },
+  {
+    title: 'Wayback Machine',
+    desc: 'Historical site content',
+    query: 'site:web.archive.org/*/{TARGET}/*'
+  },
+  {
+    title: 'Compressed Backup Files',
+    desc: 'Compressed files that may contain backups',
+    query: 'site:{TARGET} ext:zip OR ext:tar OR ext:gz OR ext:tgz OR ext:rar OR ext:7z "backup" OR "dump" OR "bak"'
+  },
+  {
+    title: 'JWT Tokens in JS',
+    desc: 'JWT tokens exposed in JavaScript code',
+    query: 'site:{TARGET} ext:js "jwt" OR "token" OR "Bearer" OR "localStorage" OR "sessionStorage"'
+  }
+];
 
   const showToastMessage = (message) => {
     setToastMessage(message);
