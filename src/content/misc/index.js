@@ -4,7 +4,7 @@ export const miscIndex = [
     title: 'Google Dorks - Advanced Security Reconnaissance Tool',
     date: 'January 2026',
     category: 'Online Tool',
-    description: 'Comprehensive Google Dork generator with 40+ categorized templates for penetration testing and bug bounty hunting. Discover exposed files, misconfigurations, credentials, APIs, and vulnerabilities across web applications and infrastructure.',
+    description: 'Comprehensive Google Dork generator with 100+ categorized templates for penetration testing and bug bounty hunting. Discover exposed files, misconfigurations, credentials, APIs, and vulnerabilities across web applications and infrastructure.',
     file: null, // No markdown file, uses React component
     tags: ['security', 'vulnerabilities', 'google', 'dorks', 'pentesting', 'bug-bounty']
   },
