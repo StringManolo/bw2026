@@ -169,6 +169,102 @@ export const GoogleDorksComponent = ({ theme }) => {
 {title:'Swagger Aggregators',desc:'Aggregated Swagger/OpenAPI bundles exposing endpoints',query:'site:{TARGET} intext:"swagger-ui-bundle.js"'},
 {title:'WSO2 Exposures',desc:'WSO2 management consoles and carbon endpoints',query:'site:{TARGET} intext:"WSO2" OR inurl:"/carbon"'},
 {title:'SAP Configs',desc:'SAP system/config files and references',query:'site:{TARGET} intext:"sap-system" OR intext:"sap-config"'},
+
+  // == Specific Leaks ==
+  {title:'OAuth Auth Codes',desc:'Leaked OAuth authorization codes in logs or URLs',query:'site:{TARGET} intext:"code=" inurl:callback OR inurl:oauth'},
+  {title:'SAML Assertions',desc:'Exposed SAML responses containing user attributes',query:'site:{TARGET} intext:"<saml:Assertion" OR intext:"SAMLResponse="'},
+  {title:'Real IP Leaks',desc:'Server IPs exposed via headers or misconfigs',query:'site:{TARGET} intext:"X-Forwarded-For: 10." OR intext:"X-Real-IP: 172." OR intext:"Via: nginx" -cloudflare'},
+  {title:'WAF Rules Leak',desc:'Cloudflare/Akamai rule IDs or error pages',query:'site:{TARGET} intext:"Ray ID" OR intext:"Akamai Error Reference"'},
+  {title:'IoT Devices',desc:'Exposed webcams, routers, and IoT dashboards',query:'site:{TARGET} intitle:"webcam" OR intitle:"router" OR intext:"Hikvision" OR intext:"Dahua"'},
+  {title:'Industrial Control',desc:'SCADA/HMI web interfaces (rare but critical)',query:'site:{TARGET} intext:"Modbus" OR intext:"Siemens SIMATIC" OR intitle:"WinCC"'},
+  {title:'Test Reports',desc:'Automated test reports with screenshots/logs',query:'site:{TARGET} intext:"playwright-report" OR intext:"cypress/report" OR inurl:"/__screenshots/"'},
+  {title:'Mock Services',desc:'WireMock/Mockoon configs exposing real endpoints',query:'site:{TARGET} intext:"wiremock" OR intext:"mockoon" OR inurl:"/__admin/"'},
+  {title:'NoSQL Admins',desc:'NoSQL database web consoles',query:'site:{TARGET} intext:"Mongo Express" OR intext:"Redis Commander" OR intext:"Cassandra Reaper"'},
+  {title:'Elasticsearch Data',desc:'ES indices and Kibana saved objects',query:'site:{TARGET} intext:"_cat/indices" OR inurl:"/.kibana/"'},
+  {title:'Data Science Envs',desc:'Exposed Jupyter/RStudio instances',query:'site:{TARGET} intitle:"Jupyter Notebook" OR intext:"RStudio Server"'},
+  {title:'OpenAPI Specs',desc:'Raw OpenAPI/Swagger JSON/YAML specs',query:'site:{TARGET} ext:yaml OR ext:json intext:"openapi:" OR intext:"swagger:" -intext:"swagger-ui-bundle.js"'},
+  {title:'Private Package Registries',desc:'Go/Rust/.NET private package repos',query:'site:{TARGET} intext:"proxy.golang.org" OR intext:"crates.io" OR intext:"nuget.org"'},
+  {title:'SSRF Payloads in Logs',desc:'SSRF attempts captured in public logs',query:'site:{TARGET} ext:log intext:"http://192.168." OR intext:"file:///etc/passwd"'},
+  {title:'Medical Data APIs',desc:'Exposed healthcare data endpoints',query:'site:{TARGET} intext:"DICOM" OR intext:"HL7" OR inurl:"/fhir/"'},
+  {title:'GIS Services',desc:'Exposed geospatial map servers',query:'site:{TARGET} intext:"GeoServer" OR intext:"MapServer" OR inurl:"/geoserver/"'},
+
+  // === Identity & Auth (Advanced) ===
+  {title:'OAuth PKCE Verifier Leaks',desc:'Leaked code_verifier or code_challenge in URLs/logs',query:'site:{TARGET} intext:"code_verifier=" OR intext:"code_challenge="'},
+  {title:'OIDC ID Tokens',desc:'Exposed OpenID Connect ID tokens (JWT)',query:'site:{TARGET} intext:"eyJhbGciOiJSUzI1Ni" intext:"openid"'},
+  {title:'Auth0 Tenant Exposures',desc:'Auth0 custom domain or tenant misconfigs',query:'site:{TARGET} intext:".auth0.com" -login -cdn'},
+  
+  // === Cloud & Serverless (Deep) ===
+  {title:'AWS AppSync APIs',desc:'Exposed GraphQL APIs via AWS AppSync',query:'site:{TARGET} intext:"appsync-api" intext:"amazonaws.com"'},
+  {title:'Google API Gateway',desc:'GCP API Gateway configs or endpoints',query:'site:{TARGET} intext:"gateway.dev" OR intext:"apigateway.googleapis.com"'},
+  {title:'Azure Blob Directories',desc:'Listable Azure Blob Storage containers',query:'site:{TARGET} intext:"blob.core.windows.net" intitle:"Index of"'},
+  
+  // === Developer Tooling & IDEs ===
+  {title:'Replit Projects',desc:'Public Replit projects referencing target',query:'site:replit.com "{TARGET}"'},
+  {title:'StackBlitz Workspaces',desc:'Exposed StackBlitz dev environments',query:'site:stackblitz.com "{TARGET}"'},
+  {title:'GitPod Configs',desc:'GitPod .gitpod.yml files with env/secrets',query:'site:{TARGET} intext:".gitpod.yml"'},
+  {title:'Expo Snack',desc:'React Native Expo Snack embeds with secrets',query:'site:snack.expo.dev "{TARGET}"'},
+  
+  // === CI/CD & Build Systems (Niche) ===
+  {title:'Drone CI',desc:'Drone CI config and build logs',query:'site:{TARGET} intext:".drone.yml" OR inurl:"/drone/"'},
+  {title:'TeamCity Builds',desc:'Exposed TeamCity build configurations',query:'site:{TARGET} inurl:"/teamcity/"'},
+  {title:'Bamboo Specs',desc:'Atlassian Bamboo plan specs',query:'site:{TARGET} intext:"bamboo-specs"'},
+  
+  // === Secrets in Non-Standard Places ===
+  {title:'Browser Extension Backgrounds',desc:'Leaked keys in Chrome extension background scripts',query:'site:{TARGET} ext:js intext:"chrome.runtime" intext:"api_key"'},
+  {title:'PDF Metadata',desc:'Author/org info in PDF document properties',query:'site:{TARGET} ext:pdf intext:"{TARGET}"'},
+  {title:'EXIF Geotags',desc:'Geolocation leaks in public images',query:'site:{TARGET} ext:jpg OR ext:jpeg intext:"gps"'},
+  
+  // === Database & Cache (Extended) ===
+  {title:'Memcached Stats',desc:'Exposed Memcached stats pages',query:'site:{TARGET} intext:"STAT version" OR intext:"memcached"'},
+  {title:'etcd Browser',desc:'Web UI for etcd key-value store',query:'site:{TARGET} intext:"etcd-browser"'},
+  {title:'ArangoDB Web Interface',desc:'ArangoDB admin console exposure',query:'site:{TARGET} intitle:"ArangoDB Web Interface"'},
+  
+  // === Compliance & Regulated Data ===
+  {title:'PCI DSS Artifacts',desc:'Payment card data or PCI-related docs',query:'site:{TARGET} intext:"card_number" OR intext:"CVV" OR intext:"PCI DSS"'},
+  {title:'GDPR DSAR Logs',desc:'Data Subject Access Request portals/logs',query:'site:{TARGET} intext:"DSAR" OR intext:"right of access"'},
+  {title:'HIPAA PHI Indicators',desc:'Protected Health Information markers',query:'site:{TARGET} intext:"PHI" OR intext:"patient_id" OR intext:"medical record"'},
+  
+  // === Legacy & Obscure Tech ===
+  {title:'WebLogic Console',desc:'Oracle WebLogic Server consoles',query:'site:{TARGET} inurl:"/console/" intitle:"WebLogic"'},
+  {title:'JBoss JMX Invoker',desc:'JBoss management interfaces',query:'site:{TARGET} inurl:"jmx-console" OR inurl:"web-console"'},
+  {title:'ColdFusion Admin',desc:'Adobe ColdFusion administrator panels',query:'site:{TARGET} inurl:"CFIDE/administrator"'},
+  
+  // === Mobile & Reverse Engineering ===
+  {title:'Firebase Crashlytics',desc:'Crash reports with stack traces/device info',query:'site:{TARGET} intext:"crashlytics.com"'},
+  {title:'Mobile Debug Symbols',desc:'dSYM or .pdb files with debug info',query:'site:{TARGET} ext:dSYM OR ext:pdb'},
+  {title:'Flutter/Dart Source Maps',desc:'Source maps for Flutter web apps',query:'site:{TARGET} ext:json intext:"sourceRoot" intext:"main.dart"'},
+  
+  // === Monitoring & Observability ===
+  {title:'Datadog Dashboards',desc:'Public Datadog dashboards or embeds',query:'site:{TARGET} intext:"datadoghq.com/app/dashboard"'},
+  {title:'New Relic One Pages',desc:'Exposed New Relic One custom pages',query:'site:{TARGET} intext:"newrelic.com/nr1-apps"'},
+  {title:'Loki/Promtail Logs',desc:'Grafana Loki log ingestion endpoints',query:'site:{TARGET} intext:"loki/api/v1/push"'},
+  
+  // === Edge Infrastructure ===
+  {title:'Fastly/Varnish Caches',desc:'Cache control headers or purge interfaces',query:'site:{TARGET} intext:"X-Varnish" OR intext:"Fastly-Debug"'},
+  {title:'Traefik Dashboard',desc:'Exposed Traefik reverse proxy UI',query:'site:{TARGET} intitle:"Traefik" inurl:"/dashboard/"'},
+  {title:'Envoy Admin',desc:'Envoy proxy admin interface',query:'site:{TARGET} inurl:"/stats" intext:"envoy"'},
+  
+  // === Alternative Code Hosting ===
+  {title:'Launchpad Bazaar',desc:'Ubuntu Launchpad Bazaar repos',query:'site:launchpad.net "{TARGET}"'},
+  {title:'Phabricator Repos',desc:'Phabricator Diffusion repositories',query:'site:{TARGET} inurl:"/diffusion/"'},
+  {title:'Gitea/Gogs Instances',desc:'Self-hosted Gitea/Gogs servers',query:'site:{TARGET} intitle:"Gitea" OR intitle:"Gogs"'},
+  
+  // === AI/ML Ops ===
+  {title:'MLflow Tracking',desc:'ML experiment tracking UIs',query:'site:{TARGET} intitle:"MLflow"'},
+  {title:'Weights & Biases',desc:'W&B project dashboards',query:'site:{TARGET} intext:"wandb.ai"'},
+  {title:'TensorBoard Instances',desc:'Exposed TensorBoard dashboards',query:'site:{TARGET} intitle:"TensorBoard"'},
+  
+  // === Email & Collaboration ===
+  {title:'Mailgun Webhooks',desc:'Mailgun event webhook endpoints',query:'site:{TARGET} intext:"mailgun.org/webhooks"'},
+  {title:'SendGrid Event Webhooks',desc:'SendGrid webhook configurations',query:'site:{TARGET} intext:"sendgrid.com/event/webhook"'},
+  {title:'Calendly Embeds',desc:'Calendly scheduling pages with org context',query:'site:{TARGET} intext:"calendly.com"'},
+  
+  // === Zero Trust & Access ===
+  {title:'BeyondCorp Enterprise',desc:'Google BeyondCorp access gateways',query:'site:{TARGET} intext:"beyondcorp" OR intext:"accesscontextmanager"'},
+  {title:'Zscaler Client Connector',desc:'Zscaler private access portals',query:'site:{TARGET} intext:"zscaler" intext:"private-access"'},
+  {title:'Cloudflare Access Apps',desc:'Cloudflare Access-protected app login pages',query:'site:{TARGET} intext:"login.cfaccess.org"'}
+
+
 ];
 
 
