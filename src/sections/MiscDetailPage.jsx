@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { MarkdownRenderer, markdownStyles } from '../components/MarkdownRenderer';
+import { GoogleDorksComponent } from '../components/GoogleDorksComponent';
 import { miscIndex, loadMiscContent } from '../content/misc';
 
 export const MiscDetailPage = ({ miscId, updateRoute, theme }) => {
@@ -14,11 +15,21 @@ export const MiscDetailPage = ({ miscId, updateRoute, theme }) => {
       setError(null);
 
       try {
-        const itemData = await loadMiscContent(miscId);
-        if (!itemData) {
-          setError('Item not found');
+        // For google-dorks, we only need the metadata, not the markdown content
+        if (miscId === 'google-dorks') {
+          const itemData = miscIndex.find(m => m.id === miscId);
+          if (!itemData) {
+            setError('Item not found');
+          } else {
+            setItem(itemData);
+          }
         } else {
-          setItem(itemData);
+          const itemData = await loadMiscContent(miscId);
+          if (!itemData) {
+            setError('Item not found');
+          } else {
+            setItem(itemData);
+          }
         }
       } catch (err) {
         console.error('Error loading misc item:', err);
@@ -33,7 +44,7 @@ export const MiscDetailPage = ({ miscId, updateRoute, theme }) => {
 
   // Handle anchor links after markdown is rendered
   useEffect(() => {
-    if (!contentRef.current || !item) return;
+    if (!contentRef.current || !item || miscId === 'google-dorks') return;
 
     const handleClick = (e) => {
       // Check if clicked element is a link or is inside a link
@@ -46,10 +57,10 @@ export const MiscDetailPage = ({ miscId, updateRoute, theme }) => {
       if (href && href.startsWith('#')) {
         e.preventDefault();
         e.stopPropagation();
-        
+
         const targetId = href.substring(1);
         const targetElement = document.getElementById(targetId);
-        
+
         if (targetElement) {
           // Get element position
           const elementPosition = targetElement.getBoundingClientRect().top;
@@ -199,9 +210,13 @@ export const MiscDetailPage = ({ miscId, updateRoute, theme }) => {
           )}
         </div>
 
-        {/* Content from .md file */}
+        {/* Content - either React component or Markdown */}
         <div ref={contentRef} style={{ marginBottom: '3em' }}>
-          <MarkdownRenderer content={item.content} theme={theme} />
+          {miscId === 'google-dorks' ? (
+            <GoogleDorksComponent theme={theme} />
+          ) : (
+            <MarkdownRenderer content={item.content} theme={theme} />
+          )}
         </div>
       </article>
     </>

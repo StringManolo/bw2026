@@ -1,5 +1,14 @@
 export const miscIndex = [
   {
+    id: 'google-dorks',
+    title: 'Google Dorks - Webtool to find vulnerabilities using google',
+    date: 'January 2026',
+    category: 'Online Tool',
+    description: 'Interactive tool to generate Google dorks for security reconnaissance',
+    file: null, // No markdown file, uses React component
+    tags: ['security', 'vulnerabilities', 'google', 'dorks', 'pentesting', 'bug-bounty']
+  },
+  {
     id: 'bug-list',
     title: 'BL - Comprehensive Web Vulnerability Classification',
     date: 'January 2026',
@@ -38,6 +47,14 @@ const markdownFiles = import.meta.glob('./*.md', {
 export const loadMiscContent = async (miscId) => {
   const item = miscIndex.find(m => m.id === miscId);
   if (!item) return null;
+
+  // Special case: google-dorks uses React component, not markdown
+  if (miscId === 'google-dorks') {
+    return {
+      ...item,
+      content: null // No markdown content needed
+    };
+  }
 
   try {
     // Find the file loader
