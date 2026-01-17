@@ -579,6 +579,7 @@ export const GoogleDorksComponent = ({ theme }) => {
     setTimeout(() => setShowToast(false), 2500);
   };
 
+
   const filterWithAI = async () => {
     if (!aiPrompt.trim()) {
       showToastMessage('Please enter a search query');
@@ -586,13 +587,28 @@ export const GoogleDorksComponent = ({ theme }) => {
     }
 
     setAiLoading(true);
-    
+
     try {
-      const systemPrompt = `You are a security researcher helper. I have ${dorkTemplates.length} Google dorks organized by categories: ${categories.map(c => c.name).join(', ')}.
+      // Create a condensed list of dorks for the AI
+      const dorksList = dorkTemplates.map((d, idx) => 
+        `${idx}|${d.title}|${d.desc}|${d.query}`
+      ).join('\n');
 
-Based on the user query, return ONLY a JSON array of category IDs that are most relevant. Choose from: ${categories.map(c => c.id).join(', ')}.
+      const systemPrompt = `You are a security researcher assistant. Analyze the user's query and select the MOST RELEVANT Google dorks from the list below.
 
-Return ONLY the JSON array, nothing else. Example: ["secrets","api","cloud"]`;
+DORK LIST (format: INDEX|TITLE|DESCRIPTION|QUERY):
+${dorksList}
+
+Based on the user query, return ONLY a JSON array of dork indices (numbers) that are specifically relevant to what they're looking for.
+
+Be PRECISE and SPECIFIC:
+- If they mention ".php", return dorks specifically for PHP files, not all code files
+- If they mention "secrets", return dorks specifically for secrets/credentials, not general config
+- If they mention a specific technology (e.g., "Docker", "AWS"), prioritize dorks for that technology
+- Return 5-20 most relevant dorks, ordered by relevance
+- Look at BOTH the query pattern and description to determine relevance
+
+Return ONLY the JSON array of indices, nothing else. Example: [5,12,45,67,89]`;
 
       const res = await fetch("https://api-ai.stringmanolo.qzz.io", {
         method: "POST",
@@ -642,18 +658,46 @@ Return ONLY the JSON array, nothing else. Example: ["secrets","api","cloud"]`;
       }
 
       const clean = fullResponse.replace(/```json|```/g, '').trim();
-      const categoryIds = JSON.parse(clean);
-      
-      if (categoryIds.length === 0) {
-        setSelectedCategory('all');
-        showToastMessage('No specific categories found, showing all');
-      } else if (categoryIds.length === 1) {
-        setSelectedCategory(categoryIds[0]);
-        showToastMessage(`Filtered to: ${categories.find(c => c.id === categoryIds[0])?.name}`);
-      } else {
-        setSelectedCategory(categoryIds[0]);
-        showToastMessage(`Found ${categoryIds.length} relevant categories`);
+      const indices = JSON.parse(clean);
+
+      if (!Array.isArray(indices) || indices.length === 0) {
+        showToastMessage('No relevant dorks found');
+        return;
       }
+
+      // Filter dorks by the AI-selected indices
+      const filteredDorks = indices
+        .filter(idx => idx >= 0 && idx < dorkTemplates.length)
+        .map(idx => dorkTemplates[idx]);
+
+      if (filteredDorks.length === 0) {
+        showToastMessage('Invalid AI response');
+        return;
+      }
+
+      // Generate dorks if target is set
+      if (target.trim()) {
+        const generated = filteredDorks.map(template => {
+          const processedValue = template.query.replace(/{TARGET}/g, target.trim());
+          const isDirectUrl = processedValue.startsWith('http');
+
+          return {
+            ...template,
+            url: isDirectUrl
+              ? processedValue
+              : 'https://www.google.com/search?q=' + encodeURIComponent(processedValue)
+          };
+        });
+
+        setDorks(generated);
+        showToastMessage(`AI selected ${generated.length} relevant dorks`);
+      } else {
+        showToastMessage(`AI found ${filteredDorks.length} relevant dorks - enter target to generate`);
+      }
+      
+      // Reset category to 'all' since we're using custom filtering
+      setSelectedCategory('all');
+
     } catch (error) {
       showToastMessage('AI filter error');
       console.error(error);
@@ -661,6 +705,7 @@ Return ONLY the JSON array, nothing else. Example: ["secrets","api","cloud"]`;
       setAiLoading(false);
     }
   };
+
 
   const generateDorks = () => {
     if (!target.trim()) {
