@@ -474,7 +474,81 @@ export const GoogleDorksComponent = ({ theme }) => {
 {title:'Event Logs',desc:'Event log files',query:'site:{TARGET} ext:evtx',category:'logs'},
 {title:'PCAP Files',desc:'Network packet capture files',query:'site:{TARGET} ext:pcap OR ext:cap OR ext:pcapng',category:'files'},
 {title:'HAR Files',desc:'HTTP Archive files',query:'site:{TARGET} ext:har',category:'logs'},
-{title:'Core Dumps',desc:'Core dump files',query:'site:{TARGET} ext:core OR ext:dmp OR ext:crash',category:'files'}
+{title:'Core Dumps',desc:'Core dump files',query:'site:{TARGET} ext:core OR ext:dmp OR ext:crash',category:'files'},
+
+  // === Direct URLs ===
+  { title: 'SecurityTrails', desc: 'Deep subdomains and DNS history', query: 'https://securitytrails.com/domain/{TARGET}', category: 'reconnaissance' },
+  { title: 'Grep.app', desc: 'Search for leaked strings in git repos', query: 'https://grep.app/search?q={TARGET}', category: 'secrets' },
+  { title: 'PublicWWW', desc: 'Source code search engine', query: 'https://publicwww.com/websites/"{TARGET}"', category: 'code' },
+  { title: 'GrayHatWarfare', desc: 'Public buckets and cloud storage', query: 'https://buckets.grayhatwarfare.com/results/{TARGET}', category: 'cloud' },
+  { title: 'SecurityHeaders', desc: 'HTTP response headers analysis', query: 'https://securityheaders.com/?q={TARGET}&followRedirects=on', category: 'config' },
+  { title: 'Postman Public', desc: 'Public API collections', query: 'https://www.postman.com/search?q={TARGET}&scope=public', category: 'api' },
+  { title: 'OpenCVE', desc: 'CVEs related to the target vendors', query: 'https://www.opencve.io/cve?vendor={TARGET}', category: 'vulns' },
+  { title: 'URLScan.io', desc: 'Scan and analyze page files', query: 'https://urlscan.io/search/#{TARGET}', category: 'reconnaissance' },
+  { title: 'Intelligence X', desc: 'Third party data leak documents', query: 'https://intelx.io/?s={TARGET}', category: 'documents' },
+  { title: 'Shodan', desc: 'Internet connected devices', query: 'https://www.shodan.io/search?query={TARGET}', category: 'infrastructure' },
+  { title: 'BuiltWith', desc: 'SaaS and tech stack lookup', query: 'https://builtwith.com/{TARGET}', category: 'saas' },
+  { title: 'Censys', desc: 'Asset inventory and exposure', query: 'https://search.censys.io/search?resource=hosts&q={TARGET}', category: 'misconfig' },
+
+  // === Reconnaissance ===
+  { title: 'DNSDumpster', desc: 'DNS recon and domain mapping', query: 'https://dnsdumpster.com/', category: 'reconnaissance' },
+  { title: 'Netcraft', desc: 'Site technology and history', query: 'https://searchdns.netcraft.com/?restriction=site+contains&host={TARGET}', category: 'reconnaissance' },
+  { title: 'Robtex', desc: 'Network and DNS intelligence', query: 'https://www.robtex.com/dns-lookup/{TARGET}', category: 'reconnaissance' },
+
+  // === Source Code ===
+  { title: 'SourceGraph', desc: 'Universal code search', query: 'https://sourcegraph.com/search?q={TARGET}', category: 'code' },
+
+  // === Configuration ===
+  { title: 'SSL Labs', desc: 'SSL/TLS configuration analysis', query: 'https://www.ssllabs.com/ssltest/analyze.html?d={TARGET}', category: 'config' },
+  { title: 'Mozilla Observatory', desc: 'Security configuration scanner', query: 'https://observatory.mozilla.org/analyze/{TARGET}', category: 'config' },
+
+  // === APIs ===
+  { title: 'SwaggerHub', desc: 'Public API documentation', query: 'https://app.swaggerhub.com/search?query={TARGET}', category: 'api' },
+  { title: 'RapidAPI', desc: 'API marketplace search', query: 'https://rapidapi.com/search?term={TARGET}&sortBy=ByRelevance', category: 'api' },
+
+  // === Vulnerabilities ===
+  { title: 'Exploit-DB', desc: 'Exploit database search', query: 'https://www.exploit-db.com/search?q={TARGET}', category: 'vulns' },
+  { title: 'NVD', desc: 'National Vulnerability Database', query: 'https://nvd.nist.gov/vuln/search#/nvd/home?keyword={TARGET}&resultType=records', category: 'vulns' },
+  { title: 'CVE Details', desc: 'CVE security vulnerability DB', query: 'https://www.cvedetails.com/google-search-results.php?q={TARGET}', category: 'vulns' },
+  { title: 'Vulners', desc: 'Vulnerability search engine', query: 'https://vulners.com/search?query={TARGET}', category: 'vulns' },
+
+  // === DevOps & CI/CD ===
+  { title: 'Docker Hub', desc: 'Public container images', query: 'https://hub.docker.com/search?q={TARGET}', category: 'devops' },
+
+  // === Files ===
+  { title: 'Scribd', desc: 'Document sharing platform', query: 'https://www.scribd.com/search?query={TARGET}', category: 'files' },
+  { title: 'SlideShare', desc: 'Presentation documents', query: 'https://www.slideshare.net/search?q={TARGET}', category: 'files' },
+  { title: 'Issuu', desc: 'Digital publishing platform', query: 'https://issuu.com/search?q={TARGET}', category: 'files' },
+
+  // === Documents ===
+  { title: 'Document Cloud', desc: 'Leaked document repository', query: 'https://www.documentcloud.org/app?q={TARGET}', category: 'documents' },
+  { title: 'Office Docs', desc: 'Office document search', query: 'https://www.google.com/search?q=(filetype:docx+OR+filetype:xlsx)+{TARGET}', category: 'documents' },
+  { title: 'Wikileaks Docs', desc: 'Exposed documents finder', query: 'https://search.wikileaks.org/?q={TARGET}', category: 'documents' },
+
+  // === Logs ===
+  { title: 'Shodan Kibana', desc: 'Exposed Kibana dashboards', query: 'https://www.shodan.io/search?query=kibana+{TARGET}', category: 'logs' },
+  { title: 'Graylog Search', desc: 'Public Graylog instances', query: 'https://www.shodan.io/search?query=graylog+{TARGET}', category: 'logs' },
+  { title: 'Splunk Exposed', desc: 'Open Splunk instances', query: 'https://www.shodan.io/search?query=splunk+{TARGET}', category: 'logs' },
+
+  // === Infrastructure ===
+  { title: 'Hurricane Electric', desc: 'BGP toolkit', query: 'https://bgp.he.net/dns/{TARGET}', category: 'infrastructure' },
+  { title: 'ZoomEye', desc: 'Cyberspace search engine', query: 'https://www.zoomeye.org/searchResult?q={TARGET}', category: 'infrastructure' },
+
+  // === Monitoring ===
+  { title: 'Grafana Public', desc: 'Public Grafana dashboards', query: 'https://www.shodan.io/search?query=grafana+{TARGET}', category: 'monitoring' },
+  { title: 'Prometheus', desc: 'Exposed Prometheus instances', query: 'https://www.shodan.io/search?query=prometheus+{TARGET}', category: 'monitoring' },
+  { title: 'Datadog Public', desc: 'Public monitoring dashboards', query: 'https://www.shodan.io/search?query=datadog+{TARGET}', category: 'monitoring' },
+  { title: 'New Relic', desc: 'APM and monitoring exposure', query: 'https://www.shodan.io/search?query=newrelic+{TARGET}', category: 'monitoring' },
+
+  // === SaaS & External ===
+  { title: 'Crunchbase', desc: 'Company intelligence', query: 'https://www.crunchbase.com/textsearch?q={TARGET}', category: 'saas' },
+  { title: 'Wappalyzer', desc: 'Technology profiler', query: 'https://www.wappalyzer.com/lookup/{TARGET}', category: 'saas' },
+  { title: 'SimilarWeb', desc: 'Website analytics', query: 'https://www.similarweb.com/website/{TARGET}', category: 'saas' },
+  { title: 'Cloudflare Radar Domains', desc: 'Website tracking by cloudflare DNS', query: 'https://radar.cloudflare.com/domains/domain/{TARGET}', category: 'reconnaissance' },
+
+  // === Misconfigurations ===
+  { title: 'Qualys SSL', desc: 'SSL server test', query: 'https://www.ssllabs.com/ssltest/analyze.html?d={TARGET}', category: 'misconfig' }
+
   ];
 
   const categories = [
